@@ -1,0 +1,28 @@
+.category-container {
+  display: flex;
+  gap: 1rem;
+  width: inherit;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  scroll-snap-type: x mandatory;
+}
+
+.category-container::-webkit-scrollbar{
+  background-color: transparent;
+  height: 6px;
+}
+.category-container::-webkit-scrollbar-thumb{
+  background-color: var(--text-secondary-dark);
+  border-radius: 10px;
+  width: 5rem;
+}
+
+
+.category-container li {
+  background-color: var(--fu-gray-800);
+  white-space: nowrap;
+  word-break: unset;
+  padding: 0.2rem 1rem;
+  scroll-snap-align: start;
+}
+
