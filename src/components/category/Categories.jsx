@@ -1,20 +1,14 @@
 import React from "react";
-import "./Category.css"
+import { useVideos } from "../../context/videos/VideoContext";
+import "./Category.css";
 const Categories = () => {
-  const categories = [
-    "All",
-    "JavaScript",
-    "Computer Science",
-    "Courses",
-    "Java",
-    "Algebra",
-    "Editing",
-    "Cricket",
-  ];
+  const { categories, setSelectedCategoryFilter } = useVideos();
   return (
     <div className="category-container">
       {categories.map((category) => (
-        <li key={category} className="py-1 radius-full flex center">{category}</li>
+        <li key={category.id} className="py-1 radius-full flex center pointer" onClick={()=>setSelectedCategoryFilter(category.id)}>
+          {category.name}
+        </li>
       ))}
     </div>
   );
