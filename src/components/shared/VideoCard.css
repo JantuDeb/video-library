@@ -1,0 +1,42 @@
+.v-card {
+  width: 100%;
+  max-width: 20rem;
+  flex-shrink: 0;
+}
+
+.text-gray {
+  font-size: small;
+}
+
+.views::after {
+  content: "•";
+  margin: 0 4px;
+}
+
+.video-title { 
+  font-size: 1rem;
+  overflow: hidden;
+  display: block;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.channel {
+  margin: 0.5rem;
+}
+
+.card-top {
+  position: relative;
+}
+.duration {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.1rem;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 0rem 0.4rem;
+  font-size: medium;
+}
