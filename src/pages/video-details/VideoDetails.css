@@ -1,0 +1,35 @@
+.video-details {
+  padding: 0.5rem;
+  margin-top: 4rem;
+  align-items: start;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.recomended-videos {
+  width: 40%;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .video-details {
+    flex-direction: column;
+  }
+  .recomended-videos {
+    width: 100%;
+    margin: 0;
+  }
+}
+@media screen and (min-width: 1080px) {
+  .video-details {
+    margin-left: 5rem;
+    margin-right: 5rem;
+  }
+}

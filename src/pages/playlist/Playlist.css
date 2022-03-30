@@ -1,0 +1,8 @@
+.playlist{
+    overflow-x: auto;
+    display: flex;
+}
+
+.playlist .v-card{
+    max-width: 18rem;
+}

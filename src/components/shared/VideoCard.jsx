@@ -4,8 +4,8 @@ import { RiPlayList2Line, RiShareForwardLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import DropdownMenu from "./DropdownMenu";
 import "./VideoCard.css";
-const VideoCard = ({ video , addToPlayList}) => {
-  const { thumbnails, title, channelTitle, statistics, duration, id } = video;
+const VideoCard = ({ video, updatePlaylist, playlistId }) => {
+  const { thumbnails, title, channelTitle, statistics, duration, _id } = video;
   return (
     <div className="v-card">
       <Link to="/video?id=454637" className="card-top">
@@ -39,7 +39,7 @@ const VideoCard = ({ video , addToPlayList}) => {
           <DropdownMenu>
             <div
               className="flex items-center gap-1 pointer"
-              onClick={() => console.log(id)}
+              onClick={() => console.log(_id)}
             >
               <MdVideoLibrary size={20} />
               <span className="item-text">Add to watch Later</span>
@@ -47,14 +47,16 @@ const VideoCard = ({ video , addToPlayList}) => {
 
             <div
               className="flex items-center gap-1 pointer"
-              onClick={() =>addToPlayList(id) }
+              onClick={() => updatePlaylist(_id, playlistId)}
             >
               <RiPlayList2Line size={20} />
-              <span className="item-text">Add to playlist</span>
+              <span className="item-text">
+                {playlistId ? "Remove from playlist" : "Add to playlist"}
+              </span>
             </div>
             <div
               className="flex items-center gap-1 pointer"
-              onClick={() => console.log("Share " + id)}
+              onClick={() => console.log("Share " + _id)}
             >
               <RiShareForwardLine /> <span className="item-text">Share</span>
             </div>
