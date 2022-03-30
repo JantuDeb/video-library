@@ -1,9 +1,11 @@
 import React from "react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import { MdVideoLibrary } from "react-icons/md";
+import { RiPlayList2Line, RiShareForwardLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import DropdownMenu from "./DropdownMenu";
 import "./VideoCard.css";
-const VideoCard = ({ video }) => {
-  const { thumbnails, title, channelTitle, statistics, duration } = video;
+const VideoCard = ({ video , addToPlayList}) => {
+  const { thumbnails, title, channelTitle, statistics, duration, id } = video;
   return (
     <div className="v-card">
       <Link to="/video?id=454637" className="card-top">
@@ -33,9 +35,31 @@ const VideoCard = ({ video }) => {
             <span>10 months ago</span>
           </div>
         </div>
-        <button className="transparent p-0 radius-full text-white">
-          <BiDotsVerticalRounded size={20} />
-        </button>
+        <div>
+          <DropdownMenu>
+            <div
+              className="flex items-center gap-1 pointer"
+              onClick={() => console.log(id)}
+            >
+              <MdVideoLibrary size={20} />
+              <span className="item-text">Add to watch Later</span>
+            </div>
+
+            <div
+              className="flex items-center gap-1 pointer"
+              onClick={() =>addToPlayList(id) }
+            >
+              <RiPlayList2Line size={20} />
+              <span className="item-text">Add to playlist</span>
+            </div>
+            <div
+              className="flex items-center gap-1 pointer"
+              onClick={() => console.log("Share " + id)}
+            >
+              <RiShareForwardLine /> <span className="item-text">Share</span>
+            </div>
+          </DropdownMenu>
+        </div>
       </div>
     </div>
   );
