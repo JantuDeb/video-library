@@ -24,3 +24,9 @@
     margin-left: 0;
   }
 }
+
+.add-play-card{
+  width: 100%;
+  max-width: 20rem;
+  background-color: var(--bg-secondary-dark);
+}

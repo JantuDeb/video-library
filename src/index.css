@@ -68,15 +68,54 @@ select {
   padding: 0.2rem;
 }
 
-select option{
+select option {
   background-color: var(--bg-secondary-dark);
 }
 
-.h-scroll::-webkit-scrollbar{
+.h-scroll::-webkit-scrollbar {
   background-color: transparent;
   height: 8px;
 }
-.h-scroll::-webkit-scrollbar-thumb{
+.h-scroll::-webkit-scrollbar-thumb {
   background-color: var(--text-secondary-dark);
   border-radius: 10px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 0rem;
+  right: 0;
+  min-width: 200px;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  z-index: 10;
+  background-color: var(--bg-secondary-dark);
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.bg-primary {
+  background-color: var(--bg-primary-dark);
+}
+.bg-secondary {
+  background-color: var(--bg-secondary-dark);
+}
+
+.input-playlist {
+  color: white;
+  padding: 0.1rem 0.5rem;
+  border: none;
+  outline: transparent ;
+}
+
+.input-playlist::placeholder {
+  color: white;
+  border-radius: 0.5rem;
 }
