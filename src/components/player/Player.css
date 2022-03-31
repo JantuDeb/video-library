@@ -1,0 +1,16 @@
+.video-wrapper{
+  width: 60%;
+  flex-grow: 1;
+}
+
+/* .react-player {
+  width: 100%;
+  height: fit-content;
+} */
+
+
+@media screen and (max-width: 768px) {
+  .video-wrapper{
+    width: 100%;
+  }
+}
