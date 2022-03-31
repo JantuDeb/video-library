@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { SidebarProvider } from "./context/sidebar/SidebarContext";
 import { VideoProvider } from "./context/videos/VideoContext";
 import { PlaylistProvidder } from "./context/playlist/PlaylistContext";
+import { LikedVideoProvider } from "./context/liked-videos/LikedVideoContext";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,7 +14,9 @@ ReactDOM.render(
       <SidebarProvider>
         <VideoProvider>
           <PlaylistProvidder>
-            <App />
+            <LikedVideoProvider>
+              <App />
+            </LikedVideoProvider>
           </PlaylistProvidder>
         </VideoProvider>
       </SidebarProvider>

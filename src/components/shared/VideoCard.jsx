@@ -1,11 +1,15 @@
 import React from "react";
-import { MdVideoLibrary } from "react-icons/md";
-import { RiPlayList2Line, RiShareForwardLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import DropdownMenu from "./DropdownMenu";
+import VideoCardActionMenu from "./video-card/VideoCardActionMenu";
 import "./VideoCard.css";
-const VideoCard = ({ video, updatePlaylist, playlistId }) => {
+const VideoCard = ({
+  video,
+  updatePlaylist,
+  playlistId,
+  isInLiked = false,
+}) => {
   const { thumbnails, title, channelTitle, statistics, duration, _id } = video;
+
   return (
     <div className="v-card">
       <Link to="/video?id=454637" className="card-top">
@@ -16,7 +20,7 @@ const VideoCard = ({ video, updatePlaylist, playlistId }) => {
         />
         <span className="duration">{duration}</span>
       </Link>
-      <div className="card-info flex">
+      <div className="card-info flex justify-between">
         <Link to="/channel/:id" className="channel">
           <img
             className="avatar-small "
@@ -24,7 +28,7 @@ const VideoCard = ({ video, updatePlaylist, playlistId }) => {
             alt="channel avatar"
           />
         </Link>
-        <div>
+        <div className="grow">
           <Link to="/video?id=454637" className="video-title">
             {title}
           </Link>
@@ -36,31 +40,12 @@ const VideoCard = ({ video, updatePlaylist, playlistId }) => {
           </div>
         </div>
         <div>
-          <DropdownMenu>
-            <div
-              className="flex items-center gap-1 pointer"
-              onClick={() => console.log(_id)}
-            >
-              <MdVideoLibrary size={20} />
-              <span className="item-text">Add to watch Later</span>
-            </div>
-
-            <div
-              className="flex items-center gap-1 pointer"
-              onClick={() => updatePlaylist(_id, playlistId)}
-            >
-              <RiPlayList2Line size={20} />
-              <span className="item-text">
-                {playlistId ? "Remove from playlist" : "Add to playlist"}
-              </span>
-            </div>
-            <div
-              className="flex items-center gap-1 pointer"
-              onClick={() => console.log("Share " + _id)}
-            >
-              <RiShareForwardLine /> <span className="item-text">Share</span>
-            </div>
-          </DropdownMenu>
+          <VideoCardActionMenu
+            videoId={_id}
+            playlistId={playlistId}
+            updatePlaylist={updatePlaylist}
+            isInLiked={isInLiked}
+          />
         </div>
       </div>
     </div>
