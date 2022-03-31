@@ -12,9 +12,9 @@ const Playlist = () => {
     playlists,
     createPlaylist,
     editPlaylist,
-    removeFromPlaylist,
     deletePlaylist,
   } = usePlaylist();
+
   const createPlaylistHandler = (name) => {
     createPlaylist({ name });
     setIsCreating(false);
@@ -25,9 +25,6 @@ const Playlist = () => {
     setIsEditing({ status: false, id: "" });
   };
 
-  const removeVideoHandler = (videoId, playlistId) => {
-    if (videoId || playlistId) removeFromPlaylist({ playlistId, videoId });
-  };
 
   const deleteClickHandler = (playlistId) => deletePlaylist({ playlistId });
 
@@ -96,7 +93,6 @@ const Playlist = () => {
                     video={video}
                     key={video._id}
                     playlistId={playlist._id}
-                    updatePlaylist={removeVideoHandler}
                   />
                 ))}
               </div>

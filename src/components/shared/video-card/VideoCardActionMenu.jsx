@@ -3,38 +3,50 @@ import { MdThumbDown, MdThumbUp, MdVideoLibrary } from "react-icons/md";
 import { RiPlayList2Line, RiShareForwardLine } from "react-icons/ri";
 import { useLikedVideos } from "../../../context/liked-videos/LikedVideoContext";
 import { usePlaylist } from "../../../context/playlist/PlaylistContext";
+import { useWatchLaterVideos } from "../../../context/watch-later/WatchLaterVideoContext";
 import PlaylistModal from "../../playlist/PlaylistModal";
 import DropdownMenu from "../DropdownMenu";
 import Modal from "../modal/Modal";
 
-const VideoCardActionMenu = ({ videoId, playlistId, isInLiked }) => {
-  const { addToLikes, removeFromLikes } = useLikedVideos();
+const VideoCardActionMenu = ({ videoId, playlistId }) => {
+  const { addToLikes, removeFromLikes, likedVideos } = useLikedVideos();
   const [showModal, setShowModal] = useState(false);
   const { removeFromPlaylist } = usePlaylist();
+  const { watchLaterVideos, addToWatchLater, removeFromWatchLater } =
+    useWatchLaterVideos();
 
-  const addToPlayList = (id) => {
+  const isLiked = likedVideos.some((video) => video._id === videoId);
+
+  const isInWatchLater = watchLaterVideos.some(
+    (video) => video._id === videoId
+  );
+
+  const addToPlayListClickHandler = () => {
     if (!playlistId) setShowModal((v) => !v);
     else removeVideoHandler(videoId, playlistId);
   };
 
-  const likeDislikeClickHandler = () => {
-    if (isInLiked) removeFromLikes(videoId);
-    else addToLikes(videoId);
-  };
+  const likeDislikeClickHandler = () =>
+    isLiked ? removeFromLikes(videoId) : addToLikes(videoId);
 
-  const removeVideoHandler = (videoId, playlistId) => {
-    if (videoId || playlistId) removeFromPlaylist({ playlistId, videoId });
-  };
+  const removeVideoHandler = (videoId, playlistId) =>
+    playlistId && removeFromPlaylist({ playlistId, videoId });
+
+  const watchLaterClickHandler = () =>
+    isInWatchLater ? removeFromWatchLater(videoId) : addToWatchLater(videoId);
 
   return (
     <>
       <DropdownMenu>
         <div
+          aria-label="add to watch later or remove from watch later "
           className="flex items-center gap-1 pointer"
-          onClick={() => console.log(videoId)}
+          onClick={watchLaterClickHandler}
         >
           <MdVideoLibrary size={20} />
-          <span className="item-text">Add to watch Later</span>
+          <span className="item-text">
+            {!isInWatchLater ? "Add to watch Later" : "Remove from watch Later"}
+          </span>
         </div>
 
         <div
@@ -42,27 +54,22 @@ const VideoCardActionMenu = ({ videoId, playlistId, isInLiked }) => {
           className="flex items-center gap-1 pointer"
           onClick={likeDislikeClickHandler}
         >
-          {isInLiked ? <MdThumbDown size={20} /> : <MdThumbUp size={20} />}
+          {isLiked ? <MdThumbDown size={20} /> : <MdThumbUp size={20} />}
           <span className="item-text">
-            {isInLiked ? "Remove from Liked Videos" : "Add to Liked Videos"}
+            {isLiked ? "Remove from Liked Videos" : "Add to Liked Videos"}
           </span>
         </div>
 
         <div
           className="flex items-center gap-1 pointer"
-          onClick={
-            () => addToPlayList() /* updatePlaylist(videoId, playlistId)*/
-          }
+          onClick={addToPlayListClickHandler}
         >
           <RiPlayList2Line size={20} />
           <span className="item-text">
             {playlistId ? "Remove from playlist" : "Add to playlist"}
           </span>
         </div>
-        <div
-          className="flex items-center gap-1 pointer"
-          onClick={() => console.log("Share " + videoId)}
-        >
+        <div className="flex items-center gap-1 pointer">
           <RiShareForwardLine /> <span className="item-text">Share</span>
         </div>
       </DropdownMenu>

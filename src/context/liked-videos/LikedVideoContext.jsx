@@ -81,7 +81,6 @@ const LikedVideoProvider = ({ children }) => {
     getLikedVideos();
   }, []);
 
-  console.log(likedVideos);
   return (
     <LikedVideoContext.Provider
       value={{
