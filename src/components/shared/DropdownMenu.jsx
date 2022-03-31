@@ -7,7 +7,7 @@ const DropdownMenu = ({ children }) => {
       <button className="transparent p-0 radius-full text-white">
         <BiDotsVerticalRounded size={20} />
       </button>
-      <div className="dropdown-menu flex-col">{children}</div>
+      <div className="dropdown-menu flex-col gap-1">{children}</div>
     </div>
   );
 };
