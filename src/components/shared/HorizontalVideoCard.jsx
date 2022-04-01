@@ -19,8 +19,7 @@ const HorizontalVideoCard = ({ video }) => {
         <img
           src={thumbnails?.url}
           alt={title}
-          className="img-fluid"
-          width="350px"
+          width="200px"
         />
         <span className="duration">{duration}</span>
       </Link>
