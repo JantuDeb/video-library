@@ -18,6 +18,13 @@
   flex-grow: 1;
 }
 
+.tag{
+  white-space: nowrap;
+  word-break: unset;
+}
+.description{
+  font-size: small;
+}
 @media screen and (max-width: 768px) {
   .video-details {
     flex-direction: column;
