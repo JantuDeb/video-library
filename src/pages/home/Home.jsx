@@ -1,7 +1,7 @@
 import React from "react";
 import Categories from "../../components/category/Categories";
 
-import VideoCard from "../../components/shared/VideoCard";
+import VideoCard from "../../components/shared/video-card/VideoCard";
 import { useVideos } from "../../context/videos/VideoContext";
 import "./Home.css";
 const Home = () => {

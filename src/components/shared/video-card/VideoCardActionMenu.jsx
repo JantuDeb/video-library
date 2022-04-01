@@ -5,7 +5,7 @@ import { useLikedVideos } from "../../../context/liked-videos/LikedVideoContext"
 import { usePlaylist } from "../../../context/playlist/PlaylistContext";
 import { useWatchLaterVideos } from "../../../context/watch-later/WatchLaterVideoContext";
 import PlaylistModal from "../../playlist/PlaylistModal";
-import DropdownMenu from "../DropdownMenu";
+import DropdownMenu from "./DropdownMenu"
 import Modal from "../modal/Modal";
 
 const VideoCardActionMenu = ({ videoId, playlistId }) => {

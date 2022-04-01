@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ChannelAvatar from "./ChannelAvatar";
-import VideoCardActionMenu from "./video-card/VideoCardActionMenu";
+import ChannelAvatar from "../ChannelAvatar";
+import VideoCardActionMenu from "./VideoCardActionMenu";
 import "./VideoCard.css";
 const VideoCard = ({ video, playlistId }) => {
   const { thumbnails, title, channelTitle, statistics, duration, _id } = video;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import VideoPlayer from "../../components/player/VideoPlayer";
-import HorizontalVideoCard from "../../components/shared/HorizontalVideoCard";
+import HorizontalVideoCard from "../../components/shared/video-card/HorizontalVideoCard";
 import "./VideoDetails.css";
 import { BiLike } from "react-icons/bi";
 import { RiPlayListAddFill, RiShareForwardLine } from "react-icons/ri";

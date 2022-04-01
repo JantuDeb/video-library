@@ -1,5 +1,5 @@
 import React from "react";
-import VideoCard from "../../components/shared/VideoCard";
+import VideoCard from "../../components/shared/video-card/VideoCard";
 import { useWatchLaterVideos } from "../../context/watch-later/WatchLaterVideoContext";
 
 const WatchLater = () => {

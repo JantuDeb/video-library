@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BiEdit, BiPlus } from "react-icons/bi";
 import { MdClose, MdDelete } from "react-icons/md";
 import PlaylistInputForm from "../../components/shared/PlaylistInputForm";
-import VideoCard from "../../components/shared/VideoCard";
+import VideoCard from "../../components/shared/video-card/VideoCard";
 import { usePlaylist } from "../../context/playlist/PlaylistContext";
 import "./Playlist.css";
 const Playlist = () => {

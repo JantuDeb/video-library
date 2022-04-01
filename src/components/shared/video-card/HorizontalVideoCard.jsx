@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { formatedDate } from "../../utils/utils";
+import { formatedDate } from "../../../utils/utils";
 
 const HorizontalVideoCard = ({ video }) => {
   const {
