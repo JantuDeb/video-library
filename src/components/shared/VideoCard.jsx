@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ChannelAvatar from "./ChannelAvatar";
 import VideoCardActionMenu from "./video-card/VideoCardActionMenu";
 import "./VideoCard.css";
 const VideoCard = ({ video, playlistId }) => {
@@ -7,7 +8,7 @@ const VideoCard = ({ video, playlistId }) => {
 
   return (
     <div className="v-card">
-      <Link to="/video?id=454637" className="card-top">
+      <Link to={`/video?videoId=${_id}`} className="card-top">
         <img
           src={thumbnails?.url}
           alt="This Tablet Comes with Windows 11 - OLED Display !"
@@ -16,18 +17,11 @@ const VideoCard = ({ video, playlistId }) => {
         <span className="duration">{duration}</span>
       </Link>
       <div className="card-info flex justify-between">
-        <Link to="/channel/:id" className="channel">
-          <img
-            className="avatar-small "
-            src="https://yt3.ggpht.com/ytc/AKedOLTms-6p1_2cRI4fjiy0RpXYsoJrMFnmRbHKVkYO=s68-c-k-c0x00ffffff-no-rj"
-            alt="channel avatar"
-          />
-        </Link>
+        <ChannelAvatar/>
         <div className="grow">
-          <Link to="/video?id=454637" className="video-title">
+          <Link to={`/video?videoId=${_id}`} className="video-title">
             {title}
           </Link>
-
           <p className="m-0 text-gray">{channelTitle}</p>
           <div className="flex text-gray">
             <span className="views">{statistics?.viewCount} views </span>

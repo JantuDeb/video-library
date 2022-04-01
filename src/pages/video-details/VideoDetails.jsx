@@ -1,75 +1,77 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import VideoPlayer from "../../components/player/VideoPlayer";
 import HorizontalVideoCard from "../../components/shared/HorizontalVideoCard";
 import "./VideoDetails.css";
-import { BiLike, BiDislike } from "react-icons/bi";
+import { BiLike } from "react-icons/bi";
 import { RiPlayListAddFill, RiShareForwardLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { axiosInstance } from "../../utils/axios-instance";
+import { formatedDate } from "../../utils/utils";
+import ChannelAvatar from "../../components/shared/ChannelAvatar";
+import ChannelInfo from "../../components/shared/ChannelInfo";
+import { useVideos } from "../../context/videos/VideoContext";
 const VideoDetails = () => {
+  const [video, setVideo] = useState({});
+  const [searchparams] = useSearchParams();
+  const videoId = searchparams.get("videoId");
+
+  const getVideo = async () => {
+    const { data } = await axiosInstance.get("/video/" + videoId);
+    if (data.success) setVideo(data.video);
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => getVideo(), [videoId]);
+  const { title, channelTitle, statistics, description, createdAt, videoURL } = video;
+  const { videos } = useVideos();
+
   return (
     <>
       <Navbar />
       <div className="flex video-details">
-        <div className="video-wrapper">
-          <VideoPlayer url="https://www.youtube.com/watch?v=GVsUOuSjvcg" />
-          <ul className="list-unstyled flex text-blue gap-1 m-0">
-            <li>#java</li>
-            <li>#javascript</li>
-            <li>#react</li>
-            <li>#css</li>
-            <li>#html</li>
-            <li>#java</li>
-          </ul>
-          <div>Future Computers Will Be Radically Different</div>
-          <div className="flex py-2 justify-between wrap items-center">
-            <div className="flex text-gray">
-              <span className="views">905k views </span>
-              <span>19 Nov 2021</span>
-            </div>
-            <div className="flex gap-2 items-center justify-between p-2">
-              <span className="flex items-center gap-1 pointer">
-                <BiLike /> 475K
-              </span>
-              <span className="flex items-center gap-1 pointer">
-                <BiDislike /> 20K
-              </span>
-              <span className="flex items-center gap-1 pointer">
-                <RiShareForwardLine /> SHARE
-              </span>
-              <span className="flex items-center gap-1 pointer">
-                <RiPlayListAddFill />
-                SAVE
-              </span>
-            </div>
-            <div className="flex items-start py-2 border-top border-bottom">
-              <Link to="/channel/:id" className="channel">
-                <img
-                  className="avatar-small "
-                  src="https://yt3.ggpht.com/ytc/AKedOLTms-6p1_2cRI4fjiy0RpXYsoJrMFnmRbHKVkYO=s68-c-k-c0x00ffffff-no-rj"
-                  alt="channel avatar"
-                />
-              </Link>
-              <div>
-                <Link to="/video?id=454637" className="video-title">
-                  Computers
-                </Link>
-                <p className="m-0 text-gray">11.5M subscribers</p>
-                <p>
-                  Analog computers were the most powerful computers for
-                  thousands of years, relegated to obscurity by the digital
-                  revolution. Analog computers were the most powerful computers
-                  for thousands of years, relegated to obscurity by the digital
-                  revolution.
-                </p>
+        {video && (
+          <div className="video-wrapper">
+            <VideoPlayer url={videoURL?.url} />
+            <ul className="list-unstyled flex text-blue gap-1 m-0 wrap">
+              {video.tags?.map((tag) => (
+                <li className="tag">#{tag}</li>
+              ))}
+            </ul>
+            <h6>{title}</h6>
+            <div className="flex py-2 justify-between wrap items-center">
+              <div className="flex text-gray">
+                <span className="views">{statistics?.viewCount} views </span>
+                <span>{createdAt && formatedDate(createdAt)}</span>
               </div>
-              <button className="btn-grad-red item-start radius-md">SUBSCRIBE</button>
+              <div className="flex gap-2 items-center justify-between p-2">
+                <span className="flex items-center gap-1 pointer">
+                  <BiLike /> {statistics?.likeCount}
+                </span>
+                <span className="flex items-center gap-1 pointer">
+                  <RiShareForwardLine /> SHARE
+                </span>
+                <span className="flex items-center gap-1 pointer">
+                  <RiPlayListAddFill />
+                  SAVE
+                </span>
+              </div>
+              <div className="flex items-start py-2 border-top border-bottom">
+                <ChannelAvatar />
+                <div>
+                  <ChannelInfo channelTitle={channelTitle} />
+                  <p className="description">{description}</p>
+                </div>
+                <button className="btn-grad-red item-start radius-md">
+                  SUBSCRIBE
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="recomended-videos">
-          {[...Array(10)].map((item) => (
-            <HorizontalVideoCard />
+          {videos.slice(0, 5).map((video) => (
+            <HorizontalVideoCard video={video} key={video._id} />
           ))}
         </div>
       </div>
