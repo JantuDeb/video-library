@@ -3,11 +3,18 @@ import { Link } from "react-router-dom";
 import ChannelAvatar from "../ChannelAvatar";
 import VideoCardActionMenu from "./VideoCardActionMenu";
 import "./VideoCard.css";
-const VideoCard = ({ video, playlistId }) => {
+import { MdClose } from "react-icons/md";
+import { useHistoryVideos } from "../../../context/history/HistoryContext";
+const VideoCard = ({ video, playlistId, history }) => {
   const { thumbnails, title, channelTitle, statistics, duration, _id } = video;
-
+  const { removeFromHistory } = useHistoryVideos();
   return (
-    <div className="v-card">
+    <div className="v-card history">
+      {history && (
+        <span className="history-close-icon flex center pointer">
+          <MdClose size={20} onClick={() => removeFromHistory(_id)} />
+        </span>
+      )}
       <Link to={`/video?videoId=${_id}`} className="card-top">
         <img
           src={thumbnails?.url}
@@ -17,7 +24,7 @@ const VideoCard = ({ video, playlistId }) => {
         <span className="duration">{duration}</span>
       </Link>
       <div className="card-info flex justify-between">
-        <ChannelAvatar/>
+        <ChannelAvatar />
         <div className="grow">
           <Link to={`/video?videoId=${_id}`} className="video-title">
             {title}

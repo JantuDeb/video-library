@@ -11,9 +11,14 @@ import { formatedDate } from "../../utils/utils";
 import ChannelAvatar from "../../components/shared/ChannelAvatar";
 import ChannelInfo from "../../components/shared/ChannelInfo";
 import { useVideos } from "../../context/videos/VideoContext";
+import { useHistoryVideos } from "../../context/history/HistoryContext";
+import { useLikedVideos } from "../../context/liked-videos/LikedVideoContext";
 const VideoDetails = () => {
   const [video, setVideo] = useState({});
   const [searchparams] = useSearchParams();
+  const { addToHistory } = useHistoryVideos();
+  const { addToLikes, likedVideos, removeFromLikes } = useLikedVideos();
+
   const videoId = searchparams.get("videoId");
 
   const getVideo = async () => {
@@ -21,10 +26,30 @@ const VideoDetails = () => {
     if (data.success) setVideo(data.video);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => getVideo(), [videoId]);
-  const { title, channelTitle, statistics, description, createdAt, videoURL } = video;
+  const updateViewCount = async () => {
+    try {
+      await axiosInstance.patch("/video/" + videoId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (videoId) {
+      getVideo();
+      addToHistory(videoId);
+      updateViewCount();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [videoId]);
+
+  const { title, channelTitle, statistics, description, createdAt, videoURL } =
+    video;
   const { videos } = useVideos();
+  const isLiked = likedVideos.some((video) => video._id === videoId);
+
+  const likeDislikeClickHandler = () =>
+    isLiked ? removeFromLikes(videoId) : addToLikes(videoId);
 
   return (
     <>
@@ -46,13 +71,18 @@ const VideoDetails = () => {
               </div>
               <div className="flex gap-2 items-center justify-between p-2">
                 <span className="flex items-center gap-1 pointer">
-                  <BiLike /> {statistics?.likeCount}
+                  <BiLike
+                    size={20}
+                    color={isLiked ? "blue" : "white"}
+                    onClick={likeDislikeClickHandler}
+                  />
+                  {statistics?.likeCount}
                 </span>
                 <span className="flex items-center gap-1 pointer">
-                  <RiShareForwardLine /> SHARE
+                  <RiShareForwardLine size={20} /> SHARE
                 </span>
                 <span className="flex items-center gap-1 pointer">
-                  <RiPlayListAddFill />
+                  <RiPlayListAddFill  size={20}/>
                   SAVE
                 </span>
               </div>
