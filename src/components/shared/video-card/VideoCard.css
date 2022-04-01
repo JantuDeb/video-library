@@ -40,3 +40,19 @@
   padding: 0rem 0.4rem;
   font-size: medium;
 }
+
+
+.history{
+  position: relative;
+}
+.history-close-icon{
+  width: 1.8rem;
+  height: 1.8rem;
+  position: absolute;
+
+  top: 0.5rem;
+  right: 0.1rem;
+  z-index: 1;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.7);
+}

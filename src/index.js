@@ -8,6 +8,7 @@ import { VideoProvider } from "./context/videos/VideoContext";
 import { PlaylistProvidder } from "./context/playlist/PlaylistContext";
 import { LikedVideoProvider } from "./context/liked-videos/LikedVideoContext";
 import { WatchLaterVideoProvider } from "./context/watch-later/WatchLaterVideoContext";
+import { HistoryVideoProvider } from "./context/history/HistoryContext";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,7 +18,9 @@ ReactDOM.render(
           <PlaylistProvidder>
             <LikedVideoProvider>
               <WatchLaterVideoProvider>
-                <App />
+                <HistoryVideoProvider>
+                  <App />
+                </HistoryVideoProvider>
               </WatchLaterVideoProvider>
             </LikedVideoProvider>
           </PlaylistProvidder>
