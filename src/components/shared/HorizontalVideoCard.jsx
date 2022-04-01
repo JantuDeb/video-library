@@ -12,7 +12,7 @@ const HorizontalVideoCard = ({ video }) => {
     _id,
     createdAt,
   } = video;
-  
+
   return (
     <div className="flex">
       <Link to={`/video?videoId=${_id}`} className="card-top m-1">
@@ -26,7 +26,7 @@ const HorizontalVideoCard = ({ video }) => {
       </Link>
       <div className="card-info flex-col m-1">
         <Link to={`/video?videoId=${_id}`} className="video-title">
-          The Most Powerful Computers You've Never Heard Of
+          {title}
         </Link>
         <p className="m-0 text-gray">{channelTitle}</p>
         <div className="flex text-gray">
