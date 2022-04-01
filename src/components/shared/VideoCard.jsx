@@ -2,12 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import VideoCardActionMenu from "./video-card/VideoCardActionMenu";
 import "./VideoCard.css";
-const VideoCard = ({
-  video,
-  updatePlaylist,
-  playlistId,
-  isInLiked = false,
-}) => {
+const VideoCard = ({ video, playlistId }) => {
   const { thumbnails, title, channelTitle, statistics, duration, _id } = video;
 
   return (
@@ -39,14 +34,7 @@ const VideoCard = ({
             <span>10 months ago</span>
           </div>
         </div>
-        <div>
-          <VideoCardActionMenu
-            videoId={_id}
-            playlistId={playlistId}
-            updatePlaylist={updatePlaylist}
-            isInLiked={isInLiked}
-          />
-        </div>
+        <VideoCardActionMenu videoId={_id} playlistId={playlistId} />
       </div>
     </div>
   );

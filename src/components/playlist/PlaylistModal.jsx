@@ -4,14 +4,16 @@ import { usePlaylist } from "../../context/playlist/PlaylistContext";
 import PlaylistInputForm from "../shared/PlaylistInputForm";
 
 const PlaylistModal = ({ setShowModal, videoId }) => {
-  const { playlists, createPlaylist, addToPlaylist } = usePlaylist();
+  const { playlists, createPlaylist, addToPlaylist, removeFromPlaylist } =
+    usePlaylist();
+    
   const createPlaylistHandler = (name) => {
     createPlaylist({ name });
   };
 
   const updatePlaylist = (e, playlistId) => {
     if (e.target.checked) addToPlaylist({ playlistId, videoId });
-    else console.log("not checked")
+    else removeFromPlaylist({ playlistId, videoId });
   };
 
   return (

@@ -22,7 +22,6 @@ const VideoProvider = ({ children }) => {
     ? videos.filter((video) => video.categoryId === selectedCategory)
     : videos;
 
-  console.log(fileterVideosByCategory);
   return (
     <VideoContext.Provider
       value={{
