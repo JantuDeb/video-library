@@ -1,4 +1,7 @@
 import { Route, Routes } from "react-router-dom";
+import LogIn from "./components/auth/LogIn";
+import SignUp from "./components/auth/SignUp";
+import PrivateRoute from "./components/shared/PrivateRoute";
 import History from "./pages/history/History";
 import Home from "./pages/home/Home";
 import Layout from "./pages/Layout";
@@ -21,36 +24,52 @@ function App() {
       <Route
         path="/playlist"
         element={
-          <Layout>
+          <PrivateRoute>
             <PlayList />
-          </Layout>
+          </PrivateRoute>
         }
       />
       <Route
         path="/watch-later"
         element={
-          <Layout>
+          <PrivateRoute>
             <WatchLater />
-          </Layout>
+          </PrivateRoute>
         }
       />
       <Route
         path="/liked-videos"
         element={
-          <Layout>
+          <PrivateRoute>
             <LikedVideo />
-          </Layout>
+          </PrivateRoute>
         }
       />
       <Route
         path="/history"
         element={
+          <PrivateRoute>
+            <History />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
           <Layout>
-              <History />
+            <SignUp />
           </Layout>
         }
       />
-      <Route path="/video" element={ <VideoDetails />} />
+      <Route
+        path="/login"
+        element={
+          <Layout>
+            <LogIn />
+          </Layout>
+        }
+      />
+      <Route path="/video" element={<VideoDetails />} />
     </Routes>
   );
 }

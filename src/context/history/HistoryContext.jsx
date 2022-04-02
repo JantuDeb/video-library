@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { axioxPrivate } from "../../utils/axios-instance";
+import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_HISTORY,
   GET_HISTORY_VIDEOS,
@@ -16,7 +16,7 @@ const HistoryVideoProvider = ({ children }) => {
    */
   const getHistoryVideos = async () => {
     try {
-      const { data } = await axioxPrivate.get("/user/history");
+      const { data } = await axiosInstance.get("/user/history");
       if (data.success) {
         const historyVideos = data.histories.map((history) => history.video);
         historyDispatch({
@@ -35,7 +35,7 @@ const HistoryVideoProvider = ({ children }) => {
   const addToHistory = async (videoId) => {
     if (historyVideos.some((video) => video._id === videoId)) return;
     try {
-      const { data } = await axioxPrivate.post("/user/history", {
+      const { data } = await axiosInstance.post("/user/history", {
         videoId,
       });
 
@@ -56,7 +56,7 @@ const HistoryVideoProvider = ({ children }) => {
    */
   const removeFromHistory = async (videoId) => {
     try {
-      const { data } = await axioxPrivate.delete(`/user/history/${videoId}`);
+      const { data } = await axiosInstance.delete(`/user/history/${videoId}`);
       if (data.success)
         historyDispatch({
           type: REMOVE_FROM_HISTORY,
@@ -68,7 +68,7 @@ const HistoryVideoProvider = ({ children }) => {
   };
 
   const deleteHistories = async () => {
-    const { data } = await axioxPrivate.delete(`/user/history`);
+    const { data } = await axiosInstance.delete(`/user/history`);
     if (data.success)
       historyDispatch({
         type: REMOVE_FROM_HISTORY,
