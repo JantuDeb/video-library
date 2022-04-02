@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { axioxPrivate } from "../../utils/axios-instance";
+import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_WATCH_LATER,
   GET_WATCH_LATER_VIDEOS,
@@ -19,7 +19,7 @@ const WatchLaterVideoProvider = ({ children }) => {
    */
   const getWatchLaterVideos = async () => {
     try {
-      const { data } = await axioxPrivate.get("/user/watch-later");
+      const { data } = await axiosInstance.get("/user/watch-later");
       if (data.success) {
         const watchLaterVideos = data.watchLaters.map((watch) => watch.video);
         watchLaterDispatch({
@@ -37,7 +37,7 @@ const WatchLaterVideoProvider = ({ children }) => {
    */
   const addToWatchLater = async (videoId) => {
     try {
-      const { data } = await axioxPrivate.post("/user/watch-later", {
+      const { data } = await axiosInstance.post("/user/watch-later", {
         videoId,
       });
 
@@ -58,7 +58,7 @@ const WatchLaterVideoProvider = ({ children }) => {
    */
   const removeFromWatchLater = async (videoId) => {
     try {
-      const { data } = await axioxPrivate.delete(
+      const { data } = await axiosInstance.delete(
         `/user/watch-later/${videoId}`
       );
       if (data.success)

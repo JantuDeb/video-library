@@ -4,8 +4,6 @@ import { useHistoryVideos } from "../../context/history/HistoryContext";
 
 const History = () => {
   const { historyVideos } = useHistoryVideos();
-
-  console.log(historyVideos);
   return (
     <div className="container">
       <div className="videos p-2">

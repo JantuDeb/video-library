@@ -120,3 +120,38 @@ select option {
   color: white;
   border-radius: 0.5rem;
 }
+
+
+.signup-main {
+  height: 100vh;
+}
+.disable {
+  cursor: not-allowed;
+  background-color: #e7e9eb;
+}
+.signup-container{
+  width: 100%;
+  max-width: 25rem;
+}
+
+.login-container{
+  width: 100%;
+  max-width: 25rem;
+}
+
+.btn-login{
+  width: 100%;
+}
+
+.input{
+  background-color: var(--bg-secondary-dark);
+  color: #fff;
+  border: 2px solid transparent;
+}
+
+.input:focus,
+.text-area:focus {
+  outline: 2px solid transparent;
+  color: var(--fu-gray-100);
+  border: 1px solid transparent;
+}

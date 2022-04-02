@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { axioxPrivate } from "../../utils/axios-instance";
+import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_LIKE,
   DELETE_ALL_LIKES,
@@ -16,7 +16,7 @@ const LikedVideoProvider = ({ children }) => {
    */
   const getLikedVideos = async () => {
     try {
-      const { data } = await axioxPrivate.get("/user/likes");
+      const { data } = await axiosInstance.get("/user/likes");
       if (data.success) {
         const likedVideos = data.likes.map((like) => like.video);
         likeDispatch({ type: GET_LIKED_VIDEOS, payload: likedVideos });
@@ -31,7 +31,7 @@ const LikedVideoProvider = ({ children }) => {
    */
   const addToLikes = async (videoId) => {
     try {
-      const { data } = await axioxPrivate.post("/user/likes", {
+      const { data } = await axiosInstance.post("/user/likes", {
         videoId,
       });
 
@@ -52,7 +52,7 @@ const LikedVideoProvider = ({ children }) => {
    */
   const removeFromLikes = async (videoId) => {
     try {
-      const { data } = await axioxPrivate.delete(`/user/like/${videoId}`);
+      const { data } = await axiosInstance.delete(`/user/like/${videoId}`);
       if (data.success)
         likeDispatch({
           type: REMOVE_FROM_LIKE,
@@ -67,7 +67,7 @@ const LikedVideoProvider = ({ children }) => {
    */
   const deleteAllLikes = async () => {
     try {
-      const { data } = await axioxPrivate.delete("/user/likes");
+      const { data } = await axiosInstance.delete("/user/likes");
       if (data.success)
         likeDispatch({
           type: DELETE_ALL_LIKES,

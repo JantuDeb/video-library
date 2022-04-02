@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { axioxPrivate } from "../../utils/axios-instance";
+import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_PLAYLIST,
   CREATE_PLAYLIST,
@@ -19,7 +19,7 @@ const PlaylistProvidder = ({ children }) => {
    */
   const getPlaylist = async () => {
     try {
-      const { data } = await axioxPrivate.get("/user/playlists");
+      const { data } = await axiosInstance.get("/user/playlists");
       if (data.success)
         playlistDispatch({ type: GET_PLAYLISTS, payload: data.playlists });
     } catch (error) {
@@ -32,7 +32,7 @@ const PlaylistProvidder = ({ children }) => {
    */
   const createPlaylist = async ({ name, description }) => {
     try {
-      const { data } = await axioxPrivate.post("/user/playlists", {
+      const { data } = await axiosInstance.post("/user/playlists", {
         name,
         description,
       });
@@ -48,7 +48,7 @@ const PlaylistProvidder = ({ children }) => {
    */
   const editPlaylist = async ({ name, description, playlistId }) => {
     try {
-      const { data } = await axioxPrivate.patch(
+      const { data } = await axiosInstance.patch(
         `/user/playlist/${playlistId}`,
         {
           name,
@@ -67,7 +67,7 @@ const PlaylistProvidder = ({ children }) => {
    */
   const addToPlaylist = async ({ playlistId, videoId }) => {
     try {
-      const { data } = await axioxPrivate.put("/user/playlists", {
+      const { data } = await axiosInstance.put("/user/playlists", {
         playlistId,
         videoId,
       });
@@ -83,7 +83,7 @@ const PlaylistProvidder = ({ children }) => {
    */
   const removeFromPlaylist = async ({ playlistId, videoId }) => {
     try {
-      const { data } = await axioxPrivate.delete(
+      const { data } = await axiosInstance.delete(
         `/user/playlist/${playlistId}/${videoId}`
       );
       if (data.success)
@@ -100,7 +100,7 @@ const PlaylistProvidder = ({ children }) => {
    */
   const deletePlaylist = async ({ playlistId }) => {
     try {
-      const { data } = await axioxPrivate.delete(
+      const { data } = await axiosInstance.delete(
         `/user/playlist/${playlistId}`
       );
       if (data.success)
