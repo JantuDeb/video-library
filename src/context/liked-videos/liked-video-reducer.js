@@ -9,6 +9,7 @@ export const likedVideoReducer = (state, action) => {
     case GET_LIKED_VIDEOS:
       return [...state, ...payload];
     case ADD_TO_LIKE:
+      console.log(payload);
       return [...state, payload];
     case REMOVE_FROM_LIKE:
       return state.filter((video) => video._id !== payload._id);

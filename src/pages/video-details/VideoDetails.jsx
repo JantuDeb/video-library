@@ -34,15 +34,6 @@ const VideoDetails = () => {
     }
   };
 
-  useEffect(() => {
-    if (videoId) {
-      getVideo();
-      addToHistory(videoId);
-      updateViewCount();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videoId]);
-
   const { title, channelTitle, statistics, description, createdAt, videoURL } =
     video;
   const { videos } = useVideos();
@@ -51,9 +42,22 @@ const VideoDetails = () => {
   const likeDislikeClickHandler = () =>
     isLiked ? removeFromLikes(videoId) : addToLikes(videoId);
 
+  useEffect(() => {
+    if (videoId) {
+      getVideo();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [videoId, isLiked]);
+
+  useEffect(() => {
+    addToHistory(videoId);
+    updateViewCount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [videoId]);
+
   return (
     <>
-      <Navbar />
+      <Navbar hideHamburgerMenu />
       <div className="flex video-details">
         {video && (
           <div className="video-wrapper">
@@ -64,38 +68,40 @@ const VideoDetails = () => {
               ))}
             </ul>
             <h6>{title}</h6>
-            <div className="flex py-2 justify-between wrap items-center">
-              <div className="flex text-gray">
-                <span className="views">{statistics?.viewCount} views </span>
-                <span>{createdAt && formatedDate(createdAt)}</span>
+            <div className="flex-col py-2 justify-between wrap items-center">
+              <div className="flex justify-between items-center w-full">
+                <div className="flex text-gray">
+                  <span className="views">{statistics?.viewCount} views </span>
+                  <span>{createdAt && formatedDate(createdAt)}</span>
+                </div>
+                <div className="flex gap-2 items-center justify-between p-2">
+                  <span className="flex items-center gap-1 pointer">
+                    <BiLike
+                      size={20}
+                      color={isLiked ? "red" : "white"}
+                      onClick={likeDislikeClickHandler}
+                    />
+                    {statistics?.likeCount}
+                  </span>
+                  <span className="flex items-center gap-1 pointer">
+                    <RiShareForwardLine size={20} /> SHARE
+                  </span>
+                  <span className="flex items-center gap-1 pointer">
+                    <RiPlayListAddFill size={20} />
+                    SAVE
+                  </span>
+                </div>
               </div>
-              <div className="flex gap-2 items-center justify-between p-2">
-                <span className="flex items-center gap-1 pointer">
-                  <BiLike
-                    size={20}
-                    color={isLiked ? "blue" : "white"}
-                    onClick={likeDislikeClickHandler}
-                  />
-                  {statistics?.likeCount}
-                </span>
-                <span className="flex items-center gap-1 pointer">
-                  <RiShareForwardLine size={20} /> SHARE
-                </span>
-                <span className="flex items-center gap-1 pointer">
-                  <RiPlayListAddFill  size={20}/>
-                  SAVE
-                </span>
-              </div>
-              <div className="flex items-start py-2 border-top border-bottom">
-                <ChannelAvatar />
-                <div>
+              <div className="flex items-start py-2 border-top border-bottom justify-between w-full">
+                <div className="flex items-center">
+                  <ChannelAvatar />
                   <ChannelInfo channelTitle={channelTitle} />
-                  <p className="description">{description}</p>
                 </div>
                 <button className="btn-grad-red item-start radius-md">
                   SUBSCRIBE
                 </button>
               </div>
+              <p className="description p-1">{description}</p>
             </div>
           </div>
         )}

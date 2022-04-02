@@ -33,6 +33,7 @@ const HistoryVideoProvider = ({ children }) => {
    * Add videos to history
    */
   const addToHistory = async (videoId) => {
+    if (historyVideos.some((video) => video._id === videoId)) return;
     try {
       const { data } = await axioxPrivate.post("/user/history", {
         videoId,
@@ -75,7 +76,7 @@ const HistoryVideoProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getHistoryVideos()
+    getHistoryVideos();
   }, []);
 
   return (
@@ -84,7 +85,7 @@ const HistoryVideoProvider = ({ children }) => {
         historyVideos,
         addToHistory,
         removeFromHistory,
-        deleteHistories
+        deleteHistories,
       }}
     >
       {children}

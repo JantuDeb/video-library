@@ -2,48 +2,51 @@ import React from "react";
 import {
   MdHome,
   MdVideoLibrary,
-  MdSubscriptions,
   MdThumbUp,
   MdHistory,
 } from "react-icons/md";
 import { RiPlayList2Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSideBar } from "../../context/sidebar/SidebarContext";
 import "./Sidebar.css";
 const Sidebar = () => {
   const { sideBar } = useSideBar();
+  
   return (
     <aside className={`${sideBar && "active"}`}>
       <nav className="side-nav">
-        <Link className="sidebar-item" to="/">
+        <NavLink
+          className="sidebar-item"
+          to="/"
+        >
           <MdHome size={20} />
           <span className="item-text">Home</span>
-        </Link>
+        </NavLink>
 
-        <Link className="sidebar-item" to="/">
+        {/* <NavLink className="sidebar-item" to="/">
           <MdSubscriptions size={20} />
           <span className="item-text">Subscriptions</span>
-        </Link>
+        </NavLink> */}
 
-        <Link className="sidebar-item" to="/liked-videos">
+        <NavLink className="sidebar-item" to="/liked-videos">
           <MdThumbUp size={20} />
           <span className="item-text">Liked Videos</span>
-        </Link>
+        </NavLink>
 
-        <Link className="sidebar-item" to="/history">
+        <NavLink className="sidebar-item" to="/history">
           <MdHistory size={20} />
           <span className="item-text">History</span>
-        </Link>
+        </NavLink>
 
-        <Link className="sidebar-item" to="/watch-later">
+        <NavLink className="sidebar-item" to="/watch-later">
           <MdVideoLibrary size={20} />
           <span className="item-text">Watch Later</span>
-        </Link>
+        </NavLink>
 
-        <Link className="sidebar-item" to="/playlist">
+        <NavLink className="sidebar-item" to="/playlist">
           <RiPlayList2Line size={20} />
           <span className="item-text">Playlist</span>
-        </Link>
+        </NavLink>
       </nav>
     </aside>
   );

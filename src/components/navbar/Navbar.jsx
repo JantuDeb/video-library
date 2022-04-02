@@ -6,18 +6,22 @@ import { IoNotificationsSharp } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi";
 import "./Navbar.css";
 import { useSideBar } from "../../context/sidebar/SidebarContext";
-const Navbar = () => {
-  const { toogle } = useSideBar();;
-  const handleClick = ()=>toogle(v=>!v)
+import { Link } from "react-router-dom";
+const Navbar = ({ hideHamburgerMenu }) => {
+  const { toogle } = useSideBar();
+  const handleClick = () => toogle((v) => !v);
   return (
     <header className="flex items-center justify-between">
       <div className="flex items-center gap-2">
-        <button className="header-menu flex center p-0" onClick={handleClick}>
-          <GiHamburgerMenu size={25} color="white" />
-        </button>
-        <div className="logo flex center">
+        {!hideHamburgerMenu && (
+          <button className="header-menu flex center p-0" onClick={handleClick}>
+            <GiHamburgerMenu size={25} color="white" />
+          </button>
+        )}
+
+        <Link to="/" className="logo flex center">
           <MdAirplay size={25} color="red" />
-        </div>
+        </Link>
       </div>
       <div className="input-icon search-box flex">
         <input type="text" placeholder="Search" id="search" />

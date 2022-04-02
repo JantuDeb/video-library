@@ -19,7 +19,7 @@ const VideoProvider = ({ children }) => {
 
   const setSelectedCategoryFilter = (id) => setSelectedCategory(id);
   const fileterVideosByCategory = selectedCategory
-    ? videos.filter((video, index) => video.category === selectedCategory)
+    ? videos.filter((video) => video.category === selectedCategory)
     : videos;
 
   return (
@@ -28,6 +28,7 @@ const VideoProvider = ({ children }) => {
         videos: fileterVideosByCategory,
         categories,
         setSelectedCategoryFilter,
+        selectedCategory
       }}
     >
       {children}

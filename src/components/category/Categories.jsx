@@ -2,11 +2,18 @@ import React from "react";
 import { useVideos } from "../../context/videos/VideoContext";
 import "./Category.css";
 const Categories = () => {
-  const { categories, setSelectedCategoryFilter } = useVideos();
+  const { categories, setSelectedCategoryFilter, selectedCategory } =
+    useVideos();
+
+  const activeClassName = (id) =>
+    `py-1 radius-full flex center pointer ${
+      selectedCategory === id ? "active" : ""
+    }`;
+
   return (
     <div className="category-container">
       <li
-        className="py-1 radius-full flex center pointer"
+        className={activeClassName("")}
         onClick={() => setSelectedCategoryFilter("")}
       >
         All
@@ -14,7 +21,7 @@ const Categories = () => {
       {categories.map((category) => (
         <li
           key={category._id}
-          className="py-1 radius-full flex center pointer"
+          className={activeClassName(category._id)}
           onClick={() => setSelectedCategoryFilter(category._id)}
         >
           {category.name}
