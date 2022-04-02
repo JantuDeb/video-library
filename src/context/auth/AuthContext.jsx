@@ -42,6 +42,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     user && authDispatch({ type: LOGIN, payload: user });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const logOut = async () => {
