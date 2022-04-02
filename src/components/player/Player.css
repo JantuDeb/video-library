@@ -3,14 +3,23 @@
   flex-grow: 1;
 }
 
-/* .react-player {
-  width: 100%;
-  height: fit-content;
-} */
-
+.react-player iframe{
+  height: 25rem;
+}
 
 @media screen and (max-width: 768px) {
   .video-wrapper{
     width: 100%;
+  }
+  .react-player iframe{
+    height: 20rem;
+  }
+}
+@media screen and (max-width: 568px) {
+  .video-wrapper{
+    width: 100%;
+  }
+  .react-player iframe{
+    height: 16rem;
   }
 }

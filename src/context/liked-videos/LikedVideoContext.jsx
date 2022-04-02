@@ -42,6 +42,8 @@ const LikedVideoProvider = ({ children }) => {
             ...data.like.video,
           },
         });
+
+      console.log(data.like.video);
     } catch (error) {
       console.log(error);
     }
@@ -58,6 +60,7 @@ const LikedVideoProvider = ({ children }) => {
           type: REMOVE_FROM_LIKE,
           payload: { _id: data.like.video },
         });
+      console.log(data.like.video);
     } catch (error) {
       console.log(error);
     }
