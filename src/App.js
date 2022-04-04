@@ -7,6 +7,7 @@ import Home from "./pages/home/Home";
 import Layout from "./pages/Layout";
 import LikedVideo from "./pages/liked-videos/LikedVideo";
 import PlayList from "./pages/playlist/PlayList";
+import Profile from "./pages/profile/Profile";
 import VideoDetails from "./pages/video-details/VideoDetails";
 import WatchLater from "./pages/watchlater/WatchLater";
 
@@ -67,6 +68,14 @@ function App() {
           <Layout>
             <LogIn />
           </Layout>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
         }
       />
       <Route path="/video" element={<VideoDetails />} />

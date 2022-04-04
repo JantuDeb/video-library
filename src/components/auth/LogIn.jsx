@@ -4,7 +4,7 @@ import { useAuth } from "../../context/auth/AuthContext";
 import Input from "../shared/Input";
 
 const LogIn = () => {
-  const [user, setUser] = useState({ email: "user@ionvu.store", password: "ionvu@123" });
+  const [user, setUser] = useState({ email: "user@ionvu.live", password: "ionvu@123" });
   const { email, password } = user;
 
   const { logIn } = useAuth();
