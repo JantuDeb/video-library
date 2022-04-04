@@ -1,57 +1,68 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import VideoPlayer from "../../components/player/VideoPlayer";
-import HorizontalVideoCard from "../../components/shared/video-card/HorizontalVideoCard";
 import "./VideoDetails.css";
 import { BiLike } from "react-icons/bi";
 import { RiPlayListAddFill, RiShareForwardLine } from "react-icons/ri";
 import { useSearchParams } from "react-router-dom";
-import { axiosInstance } from "../../utils/axios-instance";
 import { formatedDate } from "../../utils/utils";
-import ChannelAvatar from "../../components/shared/ChannelAvatar";
-import ChannelInfo from "../../components/shared/ChannelInfo";
-import { useVideos } from "../../context/videos/VideoContext";
 import { useHistoryVideos } from "../../context/history/HistoryContext";
 import { useLikedVideos } from "../../context/liked-videos/LikedVideoContext";
+import RecommendedVideos from "../../components/shared/RecommendedVideos";
+import ChannelMeta from "../../components/channel/ChannelMeta";
+import VideoNote from "../../components/VideoNote";
+import { useVideos } from "../../context/videos/VideoContext";
+import { UPDATE_LIKE_COUNT } from "../../context/videos/video-reducer";
 const VideoDetails = () => {
-  const [video, setVideo] = useState({});
   const [searchparams] = useSearchParams();
   const { addToHistory } = useHistoryVideos();
   const { addToLikes, likedVideos, removeFromLikes } = useLikedVideos();
-
+  const { video, videoDispatch, getVideo, updateViewCount, getNote } =
+    useVideos();
   const videoId = searchparams.get("videoId");
 
-  const getVideo = async () => {
-    const { data } = await axiosInstance.get("/video/" + videoId);
-    if (data.success) setVideo(data.video);
-  };
-
-  const updateViewCount = async () => {
-    try {
-      await axiosInstance.patch("/video/" + videoId);
-    } catch (error) {
-      console.log(error);
+  const {
+    title,
+    channelTitle,
+    statistics,
+    description,
+    createdAt,
+    videoURL,
+    note,
+  } = video;
+  const isLiked = likedVideos.some((video) => video._id === videoId);
+  console.log(note);
+  const likeDislikeClickHandler = () => {
+    if (isLiked) {
+      videoDispatch({
+        type: UPDATE_LIKE_COUNT,
+        payload: {
+          videoId,
+          count: -1,
+        },
+      });
+      removeFromLikes(videoId);
+    } else {
+      videoDispatch({
+        type: UPDATE_LIKE_COUNT,
+        payload: {
+          videoId,
+          count: 1,
+        },
+      });
+      addToLikes(videoId);
     }
   };
-
-  const { title, channelTitle, statistics, description, createdAt, videoURL } =
-    video;
-  const { videos } = useVideos();
-  const isLiked = likedVideos.some((video) => video._id === videoId);
-
-  const likeDislikeClickHandler = () =>
-    isLiked ? removeFromLikes(videoId) : addToLikes(videoId);
 
   useEffect(() => {
     if (videoId) {
-      getVideo();
+      getVideo(videoId);
+      addToHistory(videoId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videoId, isLiked]);
-
-  useEffect(() => {
-    addToHistory(videoId);
-    updateViewCount();
+    if (video) {
+      updateViewCount(videoId);
+      getNote(videoId);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoId]);
 
@@ -92,24 +103,13 @@ const VideoDetails = () => {
                   </span>
                 </div>
               </div>
-              <div className="flex items-start py-2 border-top border-bottom justify-between w-full">
-                <div className="flex items-center">
-                  <ChannelAvatar />
-                  <ChannelInfo channelTitle={channelTitle} />
-                </div>
-                <button className="btn-grad-red item-start radius-md">
-                  SUBSCRIBE
-                </button>
-              </div>
-              <p className="description p-1">{description}</p>
+              <ChannelMeta channelTitle={channelTitle} />
+              <p className="description p-1 m-0">{description}</p>
             </div>
+           <VideoNote note={note} videoId={videoId} />
           </div>
         )}
-        <div className="recomended-videos">
-          {videos.slice(0, 5).map((video) => (
-            <HorizontalVideoCard video={video} key={video._id} />
-          ))}
-        </div>
+        <RecommendedVideos currentVideoId={videoId} />
       </div>
     </>
   );
