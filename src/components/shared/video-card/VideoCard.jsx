@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ChannelAvatar from "../ChannelAvatar";
+import ChannelAvatar from "../../channel/ChannelAvatar";
 import VideoCardActionMenu from "./VideoCardActionMenu";
 import "./VideoCard.css";
 import { MdClose } from "react-icons/md";

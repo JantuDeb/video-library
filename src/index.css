@@ -121,7 +121,6 @@ select option {
   border-radius: 0.5rem;
 }
 
-
 .signup-main {
   height: 100vh;
 }
@@ -154,4 +153,12 @@ select option {
   outline: 2px solid transparent;
   color: var(--fu-gray-100);
   border: 1px solid transparent;
+}
+textarea{
+  border: none;
+  color:#fff;
+}
+
+textarea:focus{
+  outline: 1px solid var(--text-secondary-dark);
 }

@@ -1,4 +1,4 @@
-import { createContext, useReducer, useContext, useEffect } from "react";
+import { createContext, useReducer, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utils/axios-instance";
 import {
@@ -11,8 +11,6 @@ import {
 
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-
   const [authState, authDispatch] = useReducer(authReducer, initialAuthState);
   const navigate = useNavigate();
   const signUp = async (user) => {
@@ -39,11 +37,6 @@ const AuthProvider = ({ children }) => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    user && authDispatch({ type: LOGIN, payload: user });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const logOut = async () => {
     try {
