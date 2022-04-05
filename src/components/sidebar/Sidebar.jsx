@@ -4,21 +4,20 @@ import {
   MdVideoLibrary,
   MdThumbUp,
   MdHistory,
+  MdLogout,
 } from "react-icons/md";
 import { RiPlayList2Line } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../context/auth/AuthContext";
 import { useSideBar } from "../../context/sidebar/SidebarContext";
 import "./Sidebar.css";
 const Sidebar = () => {
   const { sideBar } = useSideBar();
-  
+  const { logOut, authState } = useAuth();
   return (
     <aside className={`${sideBar && "active"}`}>
       <nav className="side-nav">
-        <NavLink
-          className="sidebar-item"
-          to="/"
-        >
+        <NavLink className="sidebar-item" to="/">
           <MdHome size={20} />
           <span className="item-text">Home</span>
         </NavLink>
@@ -47,6 +46,12 @@ const Sidebar = () => {
           <RiPlayList2Line size={20} />
           <span className="item-text">Playlist</span>
         </NavLink>
+        {authState.isLogedIn && (
+          <Link className="sidebar-item" to="/" onClick={() => logOut()}>
+            <MdLogout size={20} color="red" />
+            <span className="item-text text-red">Logout</span>
+          </Link>
+        )}
       </nav>
     </aside>
   );

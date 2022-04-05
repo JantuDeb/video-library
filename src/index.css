@@ -7,6 +7,7 @@
   --text-secondary-dark: #9caaaa;
 }
 
+
 body {
   margin: 0;
   padding: 0;
@@ -42,6 +43,7 @@ body {
 .border-top {
   border-top: var(--fu-gray-500) solid 1px;
 }
+
 .border-bottom {
   border-bottom: var(--fu-gray-500) solid 1px;
 }
@@ -76,6 +78,7 @@ select option {
   background-color: transparent;
   height: 8px;
 }
+
 .h-scroll::-webkit-scrollbar-thumb {
   background-color: var(--text-secondary-dark);
   border-radius: 10px;
@@ -105,6 +108,7 @@ select option {
 .bg-primary {
   background-color: var(--bg-primary-dark);
 }
+
 .bg-secondary {
   background-color: var(--bg-secondary-dark);
 }
@@ -113,7 +117,7 @@ select option {
   color: white;
   padding: 0.1rem 0.5rem;
   border: none;
-  outline: transparent ;
+  outline: transparent;
 }
 
 .input-playlist::placeholder {
@@ -124,25 +128,27 @@ select option {
 .signup-main {
   height: 100vh;
 }
+
 .disable {
   cursor: not-allowed;
   background-color: #e7e9eb;
 }
-.signup-container{
+
+.signup-container {
   width: 100%;
   max-width: 25rem;
 }
 
-.login-container{
+.login-container {
   width: 100%;
   max-width: 25rem;
 }
 
-.btn-login{
+.btn-login {
   width: 100%;
 }
 
-.input{
+.input {
   background-color: var(--bg-secondary-dark);
   color: #fff;
   border: 2px solid transparent;
@@ -154,11 +160,36 @@ select option {
   color: var(--fu-gray-100);
   border: 1px solid transparent;
 }
-textarea{
+
+textarea {
   border: none;
-  color:#fff;
+  color: #fff;
 }
 
-textarea:focus{
+textarea:focus {
   outline: 1px solid var(--text-secondary-dark);
+}
+
+.profile {
+  height: calc(100vh - 4rem);
+}
+
+.profile section{
+  max-width: 20rem;
+  width: 100%;
+}
+
+.profile-badge {
+  width: fit-content;
+}
+.btn-edit {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0rem;
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.2rem;
+}
+
+.justify-end{
+  justify-content: flex-end;
 }
