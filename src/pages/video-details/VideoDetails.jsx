@@ -13,11 +13,12 @@ import ChannelMeta from "../../components/channel/ChannelMeta";
 import VideoNote from "../../components/VideoNote";
 import { useVideos } from "../../context/videos/VideoContext";
 import { UPDATE_LIKE_COUNT } from "../../context/videos/video-reducer";
+import Loader from "../../components/loader/Loader";
 const VideoDetails = () => {
   const [searchparams] = useSearchParams();
   const { addToHistory } = useHistoryVideos();
   const { addToLikes, likedVideos, removeFromLikes } = useLikedVideos();
-  const { video, videoDispatch, getVideo, updateViewCount, getNote } =
+  const { video, videoDispatch, getVideo, updateViewCount, getNote, videoState:{loading} } =
     useVideos();
   const videoId = searchparams.get("videoId");
 
@@ -31,7 +32,7 @@ const VideoDetails = () => {
     note,
   } = video;
   const isLiked = likedVideos.some((video) => video._id === videoId);
-  console.log(note);
+
   const likeDislikeClickHandler = () => {
     if (isLiked) {
       videoDispatch({
@@ -70,6 +71,7 @@ const VideoDetails = () => {
     <>
       <Navbar hideHamburgerMenu />
       <div className="flex video-details">
+        {(!video||loading) && <Loader/>}
         {video && (
           <div className="video-wrapper">
             <VideoPlayer url={videoURL?.url} />

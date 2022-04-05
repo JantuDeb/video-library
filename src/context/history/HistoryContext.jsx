@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { axiosInstance } from "../../utils/axios-instance";
+import { useAuth } from "../auth/AuthContext";
 import {
   ADD_TO_HISTORY,
+  DELETE_HISTORY,
   GET_HISTORY_VIDEOS,
   historyReducer,
   REMOVE_FROM_HISTORY,
@@ -11,6 +13,7 @@ const HistoryVideoContext = createContext([]);
 const HistoryVideoProvider = ({ children }) => {
   const [historyVideos, historyDispatch] = useReducer(historyReducer, []);
 
+  const { authState } = useAuth();
   /**
    * Get historyvideos from api
    */
@@ -33,6 +36,8 @@ const HistoryVideoProvider = ({ children }) => {
    * Add videos to history
    */
   const addToHistory = async (videoId) => {
+    if (!authState.isLogedIn) return;
+
     if (historyVideos.some((video) => video._id === videoId)) return;
     try {
       const { data } = await axiosInstance.post("/user/history", {
@@ -71,12 +76,13 @@ const HistoryVideoProvider = ({ children }) => {
     const { data } = await axiosInstance.delete(`/user/history`);
     if (data.success)
       historyDispatch({
-        type: REMOVE_FROM_HISTORY,
+        type: DELETE_HISTORY,
       });
   };
 
   useEffect(() => {
     getHistoryVideos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -86,6 +92,7 @@ const HistoryVideoProvider = ({ children }) => {
         addToHistory,
         removeFromHistory,
         deleteHistories,
+        getHistoryVideos,
       }}
     >
       {children}

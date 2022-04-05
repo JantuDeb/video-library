@@ -7,7 +7,6 @@ const VideoNote = ({ note, videoId }) => {
   const [text, setText] = useState(note);
   const [editing, setEditing] = useState(false);
   const { addNote, deleteNote } = useVideos();
-  console.log(note);
   const editClickHandler = () => {
     if (editing) addNote({ note: text, videoId });
     else if (note && !editing) {

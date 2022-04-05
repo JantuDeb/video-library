@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
+import Button from "../../components/loader/Button";
 import Input from "../../components/shared/Input";
 import Modal from "../../components/shared/modal/Modal";
-import { LOGIN } from "../../context/auth/auth-reducer";
 import { useAuth } from "../../context/auth/AuthContext";
-import { axiosInstance } from "../../utils/axios-instance";
 
 const Profile = () => {
   const {
-    authState: { user },
-    authDispatch,
+    authState: { user, loading },
+    savePhoto,
   } = useAuth();
   const [userData, setUserData] = useState({
     email: user.email,
@@ -42,26 +41,9 @@ const Profile = () => {
     fileReader.readAsDataURL(e.target.files[0]);
   };
 
-  const savePhoto = async () => {
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("name", name);
-    if (file) formData.append("photo", file);
-    try {
-      const { data } = await axiosInstance.post(
-        "user/update_user_details",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      if (data.success) authDispatch({ type: LOGIN, payload: data.user });
-      setShowModal(false);
-    } catch (error) {
-      console.log(error);
-    }
+  const saveClickHandler = async () => {
+    await savePhoto({ email, name, file });
+    setShowModal(false);
   };
 
   return (
@@ -111,9 +93,12 @@ const Profile = () => {
             {edinting ? "Cancel" : "Update details"}
           </button>
           {edinting && (
-            <button onClick={savePhoto} className="btn-red m-1 radius-sm">
-              Save
-            </button>
+            <Button
+              text="Save"
+              loading={loading}
+              clickHandler={saveClickHandler}
+              btnStyle="btn-red m-1 radius-sm"
+            />
           )}
         </div>
         <Modal show={showModal}>
@@ -134,12 +119,12 @@ const Profile = () => {
                   onChange={fileChangeHandler}
                   className="pointer m-1"
                 />
-                <button
-                  onClick={savePhoto}
-                  className="btn-red p-0 px-2 m-1 radius-sm"
-                >
-                  Save
-                </button>
+                <Button
+                  text="Save"
+                  loading={loading}
+                  clickHandler={saveClickHandler}
+                  btnStyle="btn-red p-0 px-2 m-1 radius-sm"
+                />
               </span>
             </div>
           </div>
