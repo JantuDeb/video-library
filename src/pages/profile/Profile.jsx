@@ -26,13 +26,11 @@ const Profile = () => {
   };
 
   const editProfilePhoto = () => {
-    console.log(user.photo?.secure_url);
     setImgURL(user.photo?.secure_url);
     setShowModal(true);
   };
 
   const fileChangeHandler = (e) => {
-    console.log(e.target.files[0]);
     setFile(e.target.files[0]);
     const fileReader = new FileReader();
     fileReader.onload = function (ev) {

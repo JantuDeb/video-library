@@ -81,14 +81,12 @@ const HistoryVideoProvider = ({ children }) => {
   const deleteHistories = async () => {
     try {
       const { data } = await axiosInstance.delete(`/user/history`);
-      console.log(data);
       if (data.success) {
         historyDispatch({
           type: DELETE_HISTORY,
         });
         toast.dark("Removed all histories", { autoClose: 2000 });
       }
-      console.log(data);
     } catch (error) {
       if (error.response)
         toast.error(error.response?.data?.message, { autoClose: 2000 });
