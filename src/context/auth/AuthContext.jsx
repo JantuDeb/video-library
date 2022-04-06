@@ -1,4 +1,4 @@
-import { createContext, useReducer, useContext } from "react";
+import { createContext, useReducer, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utils/axios-instance";
 import {
@@ -14,10 +14,8 @@ import {
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [authState, authDispatch] = useReducer(authReducer, initialAuthState);
-  // const [loading, setLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-
-
 
   const signUp = async (user) => {
     authDispatch({ type: LOADING, payload: { loading: true } });
@@ -35,8 +33,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-
-  
   const logIn = async ({ email, password }) => {
     authDispatch({ type: LOADING, payload: { loading: true } });
     try {
@@ -59,6 +55,7 @@ const AuthProvider = ({ children }) => {
       const { data } = await axiosInstance.get("/logout");
       if (data.success) {
         authDispatch({ type: LOGOUT });
+        localStorage.removeItem("user");
         navigate("/", { replace: true });
       }
     } catch (error) {
@@ -99,6 +96,12 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    user && authDispatch({ type: LOGIN, payload: { user } });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  console.log(user)
   return (
     <AuthContext.Provider
       value={{ authState, savePhoto, logIn, logOut, signUp, authDispatch }}
