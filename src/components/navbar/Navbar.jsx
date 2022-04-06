@@ -5,12 +5,11 @@ import { RiVideoAddLine } from "react-icons/ri";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi";
 import "./Navbar.css";
-import { useSideBar } from "../../context/sidebar/SidebarContext";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
-const Navbar = ({ hideHamburgerMenu }) => {
+const Navbar = ({ hideHamburgerMenu , toogle}) => {
   const { authState } = useAuth();
-  const { toogle } = useSideBar();
+
   const handleClick = () => toogle((v) => !v);
   return (
     <header className="flex items-center justify-between">

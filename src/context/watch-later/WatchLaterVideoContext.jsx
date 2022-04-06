@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_WATCH_LATER,
@@ -28,7 +29,8 @@ const WatchLaterVideoProvider = ({ children }) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+      toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -41,15 +43,18 @@ const WatchLaterVideoProvider = ({ children }) => {
         videoId,
       });
 
-      if (data.success)
+      if (data.success){
         watchLaterDispatch({
           type: ADD_TO_WATCH_LATER,
           payload: {
             ...data.watchLater.video,
           },
         });
+        toast.dark("Added to watch later", { autoClose: 2000 });
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -61,13 +66,16 @@ const WatchLaterVideoProvider = ({ children }) => {
       const { data } = await axiosInstance.delete(
         `/user/watch-later/${videoId}`
       );
-      if (data.success)
+      if (data.success){
         watchLaterDispatch({
           type: REMOVE_FROM_WATCH_LATER,
           payload: { _id: data.watchLater.video },
         });
+        toast.dark("Removed from watch later", { autoClose: 2000 });
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 

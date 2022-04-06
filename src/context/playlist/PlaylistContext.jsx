@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/axios-instance";
-import { useAuth } from "../auth/AuthContext";
 import {
   ADD_TO_PLAYLIST,
   CREATE_PLAYLIST,
@@ -23,7 +23,8 @@ const PlaylistProvidder = ({ children }) => {
       if (data.success)
         playlistDispatch({ type: GET_PLAYLISTS, payload: data.playlists });
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -36,10 +37,13 @@ const PlaylistProvidder = ({ children }) => {
         name,
         description,
       });
-      if (data.success)
+      if (data.success) {
         playlistDispatch({ type: CREATE_PLAYLIST, payload: data.playlist });
+        toast.dark("Playlist created", { autoClose: 2000 });
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -55,10 +59,13 @@ const PlaylistProvidder = ({ children }) => {
           description,
         }
       );
-      if (data.success)
+      if (data.success) {
+        toast.dark("Playlist successfully renamed", { autoClose: 2000 });
         playlistDispatch({ type: UPDATE_PLAYLIST, payload: data.playlist });
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -71,10 +78,13 @@ const PlaylistProvidder = ({ children }) => {
         playlistId,
         videoId,
       });
-      if (data.success)
+      if (data.success) {
         playlistDispatch({ type: ADD_TO_PLAYLIST, payload: data.playlist });
+        toast.dark("Video added to playlist", { autoClose: 2000 });
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -86,13 +96,17 @@ const PlaylistProvidder = ({ children }) => {
       const { data } = await axiosInstance.delete(
         `/user/playlist/${playlistId}/${videoId}`
       );
-      if (data.success)
+      if (data.success) {
         playlistDispatch({
           type: REMOVE_FROM_PLAYLIST,
           payload: { playlist: data.playlist, videoId },
         });
+        toast.dark("Video removed from playlist", { autoClose: 2000 });
+      }
+      
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
   /**
@@ -103,13 +117,16 @@ const PlaylistProvidder = ({ children }) => {
       const { data } = await axiosInstance.delete(
         `/user/playlist/${playlistId}`
       );
-      if (data.success)
+      if (data.success) {
         playlistDispatch({
           type: DELETE_PLAYLIST,
           payload: data.playlist,
         });
+        toast.dark("Playlist successfully deleted", { autoClose: 2000 });
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 

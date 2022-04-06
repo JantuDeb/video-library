@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/axios-instance";
 import { useAuth } from "../auth/AuthContext";
 import {
@@ -28,7 +29,8 @@ const HistoryVideoProvider = ({ children }) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -52,7 +54,8 @@ const HistoryVideoProvider = ({ children }) => {
           },
         });
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -62,22 +65,34 @@ const HistoryVideoProvider = ({ children }) => {
   const removeFromHistory = async (videoId) => {
     try {
       const { data } = await axiosInstance.delete(`/user/history/${videoId}`);
-      if (data.success)
+      if (data.success) {
         historyDispatch({
           type: REMOVE_FROM_HISTORY,
           payload: { _id: data.history.video },
         });
+        toast.dark("Removed from history", { autoClose: 2000 });
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
   const deleteHistories = async () => {
-    const { data } = await axiosInstance.delete(`/user/history`);
-    if (data.success)
-      historyDispatch({
-        type: DELETE_HISTORY,
-      });
+    try {
+      const { data } = await axiosInstance.delete(`/user/history`);
+      console.log(data);
+      if (data.success) {
+        historyDispatch({
+          type: DELETE_HISTORY,
+        });
+        toast.dark("Removed all histories", { autoClose: 2000 });
+      }
+      console.log(data);
+    } catch (error) {
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
+    }
   };
 
   useEffect(() => {

@@ -49,7 +49,7 @@ const Profile = () => {
   return (
     <div className="container profile flex-col center">
       <section className="flex-col center">
-        <div class="profile-badge">
+        <div className="profile-badge">
           <img
             className="avatar-large"
             src={`${
@@ -112,7 +112,7 @@ const Profile = () => {
               </button>
             </div>
             <div className="flex-col items-center">
-              <img class="avatar-large" src={imgURL} alt="" />
+              <img className="avatar-large" src={imgURL} alt="" />
               <span>
                 <input
                   type="file"

@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { SidebarProvider } from "./context/sidebar/SidebarContext";
 import { VideoProvider } from "./context/videos/VideoContext";
 import { PlaylistProvidder } from "./context/playlist/PlaylistContext";
 import { LikedVideoProvider } from "./context/liked-videos/LikedVideoContext";
@@ -14,21 +13,19 @@ import { AuthProvider } from "./context/auth/AuthContext";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <SidebarProvider>
-        <VideoProvider>
-          <AuthProvider>
-            <PlaylistProvidder>
-              <LikedVideoProvider>
-                <WatchLaterVideoProvider>
-                  <HistoryVideoProvider>
-                    <App />
-                  </HistoryVideoProvider>
-                </WatchLaterVideoProvider>
-              </LikedVideoProvider>
-            </PlaylistProvidder>
-          </AuthProvider>
-        </VideoProvider>
-      </SidebarProvider>
+      <VideoProvider>
+        <AuthProvider>
+          <PlaylistProvidder>
+            <LikedVideoProvider>
+              <WatchLaterVideoProvider>
+                <HistoryVideoProvider>
+                  <App />
+                </HistoryVideoProvider>
+              </WatchLaterVideoProvider>
+            </LikedVideoProvider>
+          </PlaylistProvidder>
+        </AuthProvider>
+      </VideoProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
