@@ -71,10 +71,9 @@ const VideoDetails = () => {
     <>
       <Navbar hideHamburgerMenu />
       <div className="flex video-details">
-        {(!video||loading) && <Loader/>}
         {video && (
           <div className="video-wrapper">
-            <VideoPlayer url={videoURL?.url} />
+            {loading ?<Loader/>: <VideoPlayer url={videoURL?.url} />}
             <ul className="list-unstyled flex text-blue gap-1 m-0 wrap">
               {video.tags?.map((tag) => (
                 <li className="tag">#{tag}</li>
