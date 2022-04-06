@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/axios-instance";
 import {
@@ -25,7 +25,7 @@ const WatchLaterVideoProvider = ({ children }) => {
         const watchLaterVideos = data.watchLaters.map((watch) => watch.video);
         watchLaterDispatch({
           type: GET_WATCH_LATER_VIDEOS,
-          payload: watchLaterVideos,
+          payload:{ watchLaterVideos},
         });
       }
     } catch (error) {
@@ -79,10 +79,7 @@ const WatchLaterVideoProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getWatchLaterVideos();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
 
   return (
     <WatchLaterVideoContext.Provider
@@ -90,6 +87,7 @@ const WatchLaterVideoProvider = ({ children }) => {
         watchLaterVideos,
         addToWatchLater,
         removeFromWatchLater,
+        getWatchLaterVideos
       }}
     >
       {children}

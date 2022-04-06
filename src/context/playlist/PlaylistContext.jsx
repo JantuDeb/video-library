@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+
+import React, { createContext, useContext, useReducer } from "react";
 import { toast } from "react-toastify";
+
 import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_PLAYLIST,
@@ -21,7 +23,7 @@ const PlaylistProvidder = ({ children }) => {
     try {
       const { data } = await axiosInstance.get("/user/playlists");
       if (data.success)
-        playlistDispatch({ type: GET_PLAYLISTS, payload: data.playlists });
+        playlistDispatch({ type: GET_PLAYLISTS, payload: {playlists:data.playlists} });
     } catch (error) {
       if (error.response)
         toast.error(error.response?.data?.message, { autoClose: 2000 });
@@ -130,10 +132,10 @@ const PlaylistProvidder = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getPlaylist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getPlaylist();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <PlaylistContext.Provider
       value={{
@@ -144,6 +146,7 @@ const PlaylistProvidder = ({ children }) => {
         addToPlaylist,
         removeFromPlaylist,
         deletePlaylist,
+        getPlaylist
       }}
     >
       {children}

@@ -6,7 +6,7 @@ export const likedVideoReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_LIKED_VIDEOS:
-      return [...state, ...payload];
+      return payload.likedVideos;
     case ADD_TO_LIKE:
       return [...state, payload];
     case REMOVE_FROM_LIKE:

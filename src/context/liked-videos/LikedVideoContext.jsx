@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { toast } from "react-toastify";
+import React, { createContext, useContext, useReducer } from "react";
+
 import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_LIKE,
@@ -10,7 +11,6 @@ import {
 const LikedVideoContext = createContext([]);
 const LikedVideoProvider = ({ children }) => {
   const [likedVideos, likeDispatch] = useReducer(likedVideoReducer, []);
-
   /**
    * Get liked videos from api
    */
@@ -19,7 +19,7 @@ const LikedVideoProvider = ({ children }) => {
       const { data } = await axiosInstance.get("/user/likes");
       if (data.success) {
         const likedVideos = data.likes.map((like) => like.video);
-        likeDispatch({ type: GET_LIKED_VIDEOS, payload: likedVideos });
+        likeDispatch({ type: GET_LIKED_VIDEOS, payload: {likedVideos} });
       }
     } catch (error) {
       if (error.response)
@@ -70,17 +70,18 @@ const LikedVideoProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getLikedVideos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getLikedVideos();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <LikedVideoContext.Provider
       value={{
         likedVideos,
         addToLikes,
-        removeFromLikes
+        removeFromLikes,
+        getLikedVideos
       }}
     >
       {children}

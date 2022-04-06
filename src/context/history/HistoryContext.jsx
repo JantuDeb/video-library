@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { toast } from "react-toastify";
+
 import { axiosInstance } from "../../utils/axios-instance";
 import { useAuth } from "../auth/AuthContext";
 import {
@@ -25,7 +26,7 @@ const HistoryVideoProvider = ({ children }) => {
         const historyVideos = data.histories.map((history) => history.video);
         historyDispatch({
           type: GET_HISTORY_VIDEOS,
-          payload: historyVideos,
+          payload: {historyVideos},
         });
       }
     } catch (error) {
@@ -93,10 +94,10 @@ const HistoryVideoProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getHistoryVideos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getHistoryVideos();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <HistoryVideoContext.Provider

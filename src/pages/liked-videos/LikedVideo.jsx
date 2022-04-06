@@ -1,11 +1,15 @@
-import React from "react";
+import { useEffect } from "react";
 import VideoCard from "../../components/shared/video-card/VideoCard";
 import { useLikedVideos } from "../../context/liked-videos/LikedVideoContext";
 
 const LikedVideo = () => {
   // const likedVideos = [];
 
-  const { likedVideos } = useLikedVideos();
+  const { likedVideos, getLikedVideos } = useLikedVideos();
+  useEffect(() => {
+    getLikedVideos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="container">
       <div className="videos p-2">

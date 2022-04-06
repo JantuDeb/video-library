@@ -26,9 +26,10 @@ const VideoProvider = ({ children }) => {
     currentVideo: {},
     loading: false,
     error: "",
+    currentCategory: "",
+    searchQuery: "",
   });
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
   const { currentVideo, videos } = videoState;
   /**
    * GET VIDEOS, CATEGORY FORM API
@@ -128,18 +129,23 @@ const VideoProvider = ({ children }) => {
     getVideos();
   }, []);
 
-  const setSelectedCategoryFilter = (id) => setSelectedCategory(id);
-  const fileterVideosByCategory = selectedCategory
-    ? videos.filter((video) => video.category === selectedCategory)
-    : videos;
+  const filterVideosByCategory = videos.filter((video) =>
+    videoState.currentCategory === ""
+      ? true
+      : video.category === videoState.currentCategory
+  );
+
+  const filterVideosBySearch = filterVideosByCategory.filter((video) =>
+    videoState.searchQuery==="" ||videoState.searchQuery===null
+      ? true
+      : video.title.toLowerCase().includes(videoState.searchQuery.toLowerCase())
+  );
 
   return (
     <VideoContext.Provider
       value={{
-        videos: fileterVideosByCategory,
+        videos: filterVideosBySearch,
         categories,
-        setSelectedCategoryFilter,
-        selectedCategory,
         video: currentVideo,
         getVideo,
         updateViewCount,

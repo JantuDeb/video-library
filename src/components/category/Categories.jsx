@@ -1,20 +1,21 @@
 import React from "react";
+import { SET_CURRENT_CATEGORY } from "../../context/videos/video-reducer";
 import { useVideos } from "../../context/videos/VideoContext";
 import "./Category.css";
 const Categories = () => {
-  const { categories, setSelectedCategoryFilter, selectedCategory } =
+  const { categories, videoState, videoDispatch } =
     useVideos();
 
   const activeClassName = (id) =>
     `py-1 radius-full flex center pointer ${
-      selectedCategory === id ? "active" : ""
+      videoState.currentCategory === id ? "active" : ""
     }`;
 
   return (
     <div className="category-container">
       <li
         className={activeClassName("")}
-        onClick={() => setSelectedCategoryFilter("")}
+        onClick={() => videoDispatch({type:SET_CURRENT_CATEGORY, payload:{category:""}})}
       >
         All
       </li>
@@ -22,7 +23,7 @@ const Categories = () => {
         <li
           key={category._id}
           className={activeClassName(category._id)}
-          onClick={() => setSelectedCategoryFilter(category._id)}
+          onClick={() => videoDispatch({type:SET_CURRENT_CATEGORY, payload:{category:category._id}})}
         >
           {category.name}
         </li>

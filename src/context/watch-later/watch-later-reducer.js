@@ -6,7 +6,7 @@ export const watchLaterReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_WATCH_LATER_VIDEOS:
-      return [...state, ...payload];
+      return payload.watchLaterVideos;
     case ADD_TO_WATCH_LATER:
       return [...state, payload];
     case REMOVE_FROM_WATCH_LATER:

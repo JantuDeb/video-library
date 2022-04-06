@@ -5,7 +5,7 @@ import Layout from "../../pages/Layout";
 
 const PrivateRoute = ({children}) => {
   const { authState } = useAuth();
-  return authState.isLogedIn?<Layout>{children}</Layout>  : <Navigate to="/login" replace/>
+  return authState.isLogedIn?<Layout>{children}</Layout>  : <Navigate to="/login" />
 };
 
 export default PrivateRoute;
