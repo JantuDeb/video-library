@@ -6,10 +6,17 @@ import PlaylistInputForm from "../shared/PlaylistInputForm";
 const PlaylistModal = ({ setShowModal, videoId }) => {
   const { playlists, createPlaylist, addToPlaylist, removeFromPlaylist } =
     usePlaylist();
-    
+
   const createPlaylistHandler = (name) => {
     createPlaylist({ name });
   };
+
+  const isInPlaylist = (pId) =>
+    playlists.some((playlist) =>
+      playlist._id === pId
+        ? playlist.videos.some((v) => v._id === videoId)
+        : false
+    );
 
   const updatePlaylist = (e, playlistId) => {
     if (e.target.checked) addToPlaylist({ playlistId, videoId });
@@ -29,6 +36,7 @@ const PlaylistModal = ({ setShowModal, videoId }) => {
               type="checkbox"
               id={playlist._id}
               onChange={(e) => updatePlaylist(e, playlist._id)}
+              checked={isInPlaylist(playlist._id)}
             />
             <label htmlFor={playlist._id}> {playlist.name}</label>
           </div>

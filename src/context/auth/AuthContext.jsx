@@ -80,7 +80,6 @@ const AuthProvider = ({ children }) => {
     formData.append("name", name);
     if (file) formData.append("photo", file);
     try {
-      console.log(name, email, file);
       const { data } = await axiosInstance.post(
         "user/update_user_details",
         formData,

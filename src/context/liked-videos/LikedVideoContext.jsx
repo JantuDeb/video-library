@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useReducer } from "react";
+import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_LIKE,
-  DELETE_ALL_LIKES,
   GET_LIKED_VIDEOS,
   likedVideoReducer,
   REMOVE_FROM_LIKE,
@@ -10,6 +10,7 @@ import {
 const LikedVideoContext = createContext([]);
 const LikedVideoProvider = ({ children }) => {
   const [likedVideos, likeDispatch] = useReducer(likedVideoReducer, []);
+
   /**
    * Get liked videos from api
    */
@@ -21,7 +22,8 @@ const LikedVideoProvider = ({ children }) => {
         likeDispatch({ type: GET_LIKED_VIDEOS, payload: {likedVideos} });
       }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -34,15 +36,18 @@ const LikedVideoProvider = ({ children }) => {
         videoId,
       });
 
-      if (data.success)
+      if (data.success) {
         likeDispatch({
           type: ADD_TO_LIKE,
           payload: {
             ...data.like.video,
           },
         });
+        toast.dark("Added to liked videos", { autoClose: 2000 });
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -52,34 +57,19 @@ const LikedVideoProvider = ({ children }) => {
   const removeFromLikes = async (videoId) => {
     try {
       const { data } = await axiosInstance.delete(`/user/like/${videoId}`);
-      if (data.success)
+      if (data.success) {
         likeDispatch({
           type: REMOVE_FROM_LIKE,
           payload: { _id: data.like.video },
         });
+        toast.dark("Removed from liked videos", { autoClose: 2000 });
+      }
     } catch (error) {
-      console.log(error);
-    }
-  };
-  /**
-   * Delete all likes
-   */
-  const deleteAllLikes = async () => {
-    try {
-      const { data } = await axiosInstance.delete("/user/likes");
-      if (data.success)
-        likeDispatch({
-          type: DELETE_ALL_LIKES,
-        });
-    } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
-  // useEffect(() => {
-  //   getLikedVideos();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   return (
     <LikedVideoContext.Provider
