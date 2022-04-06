@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useReducer } from "react";
 import { toast } from "react-toastify";
+import React, { createContext, useContext, useReducer } from "react";
+
 import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_TO_LIKE,
@@ -10,7 +11,6 @@ import {
 const LikedVideoContext = createContext([]);
 const LikedVideoProvider = ({ children }) => {
   const [likedVideos, likeDispatch] = useReducer(likedVideoReducer, []);
-
   /**
    * Get liked videos from api
    */
@@ -77,7 +77,6 @@ const LikedVideoProvider = ({ children }) => {
         likedVideos,
         addToLikes,
         removeFromLikes,
-        deleteAllLikes,
         getLikedVideos
       }}
     >

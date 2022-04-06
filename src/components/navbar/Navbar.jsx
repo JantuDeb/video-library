@@ -12,8 +12,8 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
+
 const Navbar = ({ hideHamburgerMenu , toogle}) => {
   const { authState } = useAuth();
 
