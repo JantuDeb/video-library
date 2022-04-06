@@ -14,7 +14,13 @@ export const playlistReducer = (state, action) => {
       return [...state, payload];
     case UPDATE_PLAYLIST:
       return state.map((playlist) =>
-        playlist._id === payload._id ? { ...playlist, ...payload } : playlist
+        playlist._id === payload._id
+          ? {
+              ...playlist,
+              name: payload.name,
+              description: payload.description,
+            }
+          : playlist
       );
 
     case ADD_TO_PLAYLIST:

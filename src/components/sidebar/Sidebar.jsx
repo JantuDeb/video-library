@@ -9,10 +9,8 @@ import {
 import { RiPlayList2Line } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
-import { useSideBar } from "../../context/sidebar/SidebarContext";
 import "./Sidebar.css";
-const Sidebar = () => {
-  const { sideBar } = useSideBar();
+const Sidebar = ({sideBar}) => {
   const { logOut, authState } = useAuth();
   return (
     <aside className={`${sideBar && "active"}`}>

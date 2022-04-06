@@ -5,6 +5,7 @@ import React, {
   useReducer,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_NOTE,
@@ -33,7 +34,7 @@ const VideoProvider = ({ children }) => {
    * GET VIDEOS, CATEGORY FORM API
    */
   const getVideos = async () => {
-    videoDispatch({type:LOADING, payload:{loading:true}})
+    videoDispatch({ type: LOADING, payload: { loading: true } });
     try {
       const [videoResponse, categoryResponse] = await Promise.all([
         axiosInstance.get("/videos"),
@@ -47,14 +48,16 @@ const VideoProvider = ({ children }) => {
       });
       setCategories(categoryResponse.data.categories);
     } catch (error) {
-      videoDispatch({type:ERROR, payload:{error:error.message}})
-    }finally{
-      videoDispatch({type:LOADING, payload:{loading:false}})
+      videoDispatch({ type: ERROR, payload: { error: error.message } });
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
+    } finally {
+      videoDispatch({ type: LOADING, payload: { loading: false } });
     }
   };
 
   const getVideo = async (videoId) => {
-    videoDispatch({type:LOADING, payload:{loading:true}})
+    videoDispatch({ type: LOADING, payload: { loading: true } });
     try {
       const { data } = await axiosInstance.get("/video/" + videoId);
       if (data.success)
@@ -65,9 +68,11 @@ const VideoProvider = ({ children }) => {
           },
         });
     } catch (error) {
-      videoDispatch({type:ERROR, payload:{error:error.message}})
-    }finally{
-      videoDispatch({type:LOADING, payload:{loading:false}})
+      videoDispatch({ type: ERROR, payload: { error: error.message } });
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
+    } finally {
+      videoDispatch({ type: LOADING, payload: { loading: false } });
     }
   };
 
@@ -90,10 +95,12 @@ const VideoProvider = ({ children }) => {
 
   const addNote = async ({ note, videoId }) => {
     videoDispatch({ type: ADD_NOTE, payload: { note } });
+    toast.dark("Note added successfully", { autoClose: 2000 });
     try {
       await axiosInstance.post("/video/note/" + videoId, { note });
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -108,10 +115,12 @@ const VideoProvider = ({ children }) => {
 
   const deleteNote = async (videoId) => {
     videoDispatch({ type: DELETE_NOTE });
+    toast.dark("Note deleted successfully", { autoClose: 2000 });
     try {
       await axiosInstance.delete("/video/note/" + videoId);
     } catch (error) {
-      console.log(error);
+      if (error.response)
+        toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
@@ -138,7 +147,7 @@ const VideoProvider = ({ children }) => {
         addNote,
         deleteNote,
         getNote,
-        videoState
+        videoState,
       }}
     >
       {children}
