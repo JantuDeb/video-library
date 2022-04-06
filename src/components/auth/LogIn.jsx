@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
+import Button from "../loader/Button";
 import Input from "../shared/Input";
 
 const LogIn = () => {
   const [user, setUser] = useState({ email: "user@ionvu.live", password: "ionvu@123" });
   const { email, password } = user;
 
-  const { logIn } = useAuth();
+  const { logIn , authState:{loading}} = useAuth();
   function inputChangeHandler(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
@@ -21,7 +22,6 @@ const LogIn = () => {
     <main className="signup-main flex center">
       <form
         className="login-container radius-md shadow-gray p-4"
-        onSubmit={submit}
       >
         <Input
           type="email"
@@ -54,9 +54,7 @@ const LogIn = () => {
             Forgot Password
           </Link>
         </div>
-        <button className="btn-grad-red radius-md btn-login my-2" type="submit">
-          Login
-        </button>
+        <Button loading={loading} text="Login" clickHandler={submit} btnStyle="btn-grad-red radius-md btn-login my-2" />
         <div className="flex justify-center">
           <span>Not registered yet? </span>
           <Link to="/signup" className="btn-link px-1">

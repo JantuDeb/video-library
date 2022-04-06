@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { axiosInstance } from "../../utils/axios-instance";
+import { useAuth } from "../auth/AuthContext";
 import {
   ADD_TO_PLAYLIST,
   CREATE_PLAYLIST,
@@ -13,7 +14,6 @@ import {
 const PlaylistContext = createContext([]);
 const PlaylistProvidder = ({ children }) => {
   const [playlists, playlistDispatch] = useReducer(playlistReducer, []);
-
   /**
    * Get playlists from api
    */
@@ -115,6 +115,7 @@ const PlaylistProvidder = ({ children }) => {
 
   useEffect(() => {
     getPlaylist();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <PlaylistContext.Provider
@@ -125,7 +126,7 @@ const PlaylistProvidder = ({ children }) => {
         editPlaylist,
         addToPlaylist,
         removeFromPlaylist,
-        deletePlaylist
+        deletePlaylist,
       }}
     >
       {children}

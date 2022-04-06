@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { axiosInstance } from "../../utils/axios-instance";
+import { useAuth } from "../auth/AuthContext";
 import {
   ADD_TO_LIKE,
   DELETE_ALL_LIKES,
@@ -10,7 +11,9 @@ import {
 const LikedVideoContext = createContext([]);
 const LikedVideoProvider = ({ children }) => {
   const [likedVideos, likeDispatch] = useReducer(likedVideoReducer, []);
-
+  const {
+    authState: { isLogedIn },
+  } = useAuth();
   /**
    * Get liked videos from api
    */
@@ -79,6 +82,7 @@ const LikedVideoProvider = ({ children }) => {
 
   useEffect(() => {
     getLikedVideos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

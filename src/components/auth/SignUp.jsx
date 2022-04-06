@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
+import Button from "../loader/Button";
 import Input from "../shared/Input";
 
 const SignUp = () => {
@@ -7,7 +8,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const { name, email, password } = user;
 
-  const { signUp } = useAuth();
+  const { signUp, authState:{loading} } = useAuth();
   function inputChangeHandler(e) {
     if (e.target.name === "confirm-password")
       setConfirmPassword(e.target.value);
@@ -23,7 +24,6 @@ const SignUp = () => {
     <main className="signup-main flex center">
       <form
         className="signup-container radius-md shadow-gray py-4"
-        onSubmit={submit}
       >
         <Input
           type="email"
@@ -70,15 +70,9 @@ const SignUp = () => {
             name="terms-and-conditions"
           />
         </div>
-        <button
-          className={`radius-md ${
+        <Button loading={loading} text="Regester new account" clickHandler={submit} btnStyle={`radius-md ${
             password === confirmPassword ? "btn-grad-red" : "disable"
-          }`}
-          type="submit"
-          disabled={password !== confirmPassword}
-        >
-          Regester new account
-        </button>
+          }`} disable={password !== confirmPassword}/>
       </form>
     </main>
   );

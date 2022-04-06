@@ -9,9 +9,11 @@ import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_NOTE,
   DELETE_NOTE,
+  ERROR,
   GET_CURRENT_VIDEO,
   GET_NOTE,
   GET_VIDEOS,
+  LOADING,
   UPDATE_VIEW_COUNT,
   videoReducer,
 } from "./video-reducer";
@@ -21,6 +23,8 @@ const VideoProvider = ({ children }) => {
   const [videoState, videoDispatch] = useReducer(videoReducer, {
     videos: [],
     currentVideo: {},
+    loading: false,
+    error: "",
   });
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -29,6 +33,7 @@ const VideoProvider = ({ children }) => {
    * GET VIDEOS, CATEGORY FORM API
    */
   const getVideos = async () => {
+    videoDispatch({type:LOADING, payload:{loading:true}})
     try {
       const [videoResponse, categoryResponse] = await Promise.all([
         axiosInstance.get("/videos"),
@@ -42,11 +47,14 @@ const VideoProvider = ({ children }) => {
       });
       setCategories(categoryResponse.data.categories);
     } catch (error) {
-      console.log(error);
+      videoDispatch({type:ERROR, payload:{error:error.message}})
+    }finally{
+      videoDispatch({type:LOADING, payload:{loading:false}})
     }
   };
 
   const getVideo = async (videoId) => {
+    videoDispatch({type:LOADING, payload:{loading:true}})
     try {
       const { data } = await axiosInstance.get("/video/" + videoId);
       if (data.success)
@@ -57,7 +65,9 @@ const VideoProvider = ({ children }) => {
           },
         });
     } catch (error) {
-      console.log(error);
+      videoDispatch({type:ERROR, payload:{error:error.message}})
+    }finally{
+      videoDispatch({type:LOADING, payload:{loading:false}})
     }
   };
 
@@ -86,6 +96,7 @@ const VideoProvider = ({ children }) => {
       console.log(error);
     }
   };
+
   const getNote = async (videoId) => {
     try {
       const { data } = await axiosInstance.get("/video/note/" + videoId);
@@ -127,6 +138,7 @@ const VideoProvider = ({ children }) => {
         addNote,
         deleteNote,
         getNote,
+        videoState
       }}
     >
       {children}

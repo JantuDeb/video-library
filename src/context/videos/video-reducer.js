@@ -5,6 +5,8 @@ export const GET_CURRENT_VIDEO = "GET_CURRENT_VIDEO";
 export const ADD_NOTE = "ADD_NOTE";
 export const DELETE_NOTE = "DELETE_NOTE";
 export const GET_NOTE = "GET_NOTE";
+export const LOADING = "LOADING";
+export const ERROR = "ERROR";
 
 export const videoReducer = (state, action) => {
   const { type, payload } = action;
@@ -12,7 +14,10 @@ export const videoReducer = (state, action) => {
     case GET_VIDEOS:
       return { ...state, videos: payload.videos };
     case GET_CURRENT_VIDEO:
-      return { ...state, currentVideo: {...state.currentVideo,...payload.video} };
+      return {
+        ...state,
+        currentVideo: { ...state.currentVideo, ...payload.video },
+      };
     case UPDATE_LIKE_COUNT:
       return updateCount({ state, payload, type: "likeCount" });
     case UPDATE_VIEW_COUNT:
@@ -34,6 +39,11 @@ export const videoReducer = (state, action) => {
           note: "",
         },
       };
+
+    case LOADING:
+      return { ...state, loading: payload.loading };
+    case ERROR:
+      return { ...state, error: payload.error };
     default:
       return state;
   }

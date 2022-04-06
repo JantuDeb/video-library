@@ -73,6 +73,7 @@ const WatchLaterVideoProvider = ({ children }) => {
 
   useEffect(() => {
     getWatchLaterVideos();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
