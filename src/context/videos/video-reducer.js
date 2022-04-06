@@ -7,6 +7,8 @@ export const DELETE_NOTE = "DELETE_NOTE";
 export const GET_NOTE = "GET_NOTE";
 export const LOADING = "LOADING";
 export const ERROR = "ERROR";
+export const SET_SEARCH_QUERY = "SET_SEARCH_QUERY";
+export const SET_CURRENT_CATEGORY = "SET_CURRENT_CATEGORY";
 
 export const videoReducer = (state, action) => {
   const { type, payload } = action;
@@ -22,6 +24,11 @@ export const videoReducer = (state, action) => {
       return updateCount({ state, payload, type: "likeCount" });
     case UPDATE_VIEW_COUNT:
       return updateCount({ state, payload, type: "viewCount" });
+    case SET_SEARCH_QUERY:
+      return { ...state, searchQuery: payload.query };
+    case SET_CURRENT_CATEGORY:
+      return { ...state, currentCategory: payload.category };
+
     case ADD_NOTE:
     case GET_NOTE:
       return {

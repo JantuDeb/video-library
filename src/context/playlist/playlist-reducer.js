@@ -9,7 +9,7 @@ export const playlistReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_PLAYLISTS:
-      return [...state, ...payload];
+      return payload.playlists;
     case CREATE_PLAYLIST:
       return [...state, payload];
     case UPDATE_PLAYLIST:

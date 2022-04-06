@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
       if (data.success) {
         authDispatch({ type: LOGIN, payload: { user: data.user } });
         localStorage.setItem("user", JSON.stringify(data.user));
-        navigate("/", { replace: true });
+        navigate(-1);
       }
     } catch (error) {
       authDispatch({ type: ERROR, payload: { error: error.message } });

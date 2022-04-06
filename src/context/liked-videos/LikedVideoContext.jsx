@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { axiosInstance } from "../../utils/axios-instance";
-import { useAuth } from "../auth/AuthContext";
 import {
   ADD_TO_LIKE,
   DELETE_ALL_LIKES,
@@ -11,9 +10,6 @@ import {
 const LikedVideoContext = createContext([]);
 const LikedVideoProvider = ({ children }) => {
   const [likedVideos, likeDispatch] = useReducer(likedVideoReducer, []);
-  const {
-    authState: { isLogedIn },
-  } = useAuth();
   /**
    * Get liked videos from api
    */
@@ -22,7 +18,7 @@ const LikedVideoProvider = ({ children }) => {
       const { data } = await axiosInstance.get("/user/likes");
       if (data.success) {
         const likedVideos = data.likes.map((like) => like.video);
-        likeDispatch({ type: GET_LIKED_VIDEOS, payload: likedVideos });
+        likeDispatch({ type: GET_LIKED_VIDEOS, payload: {likedVideos} });
       }
     } catch (error) {
       console.log(error);
@@ -80,10 +76,10 @@ const LikedVideoProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getLikedVideos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getLikedVideos();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <LikedVideoContext.Provider
@@ -92,6 +88,7 @@ const LikedVideoProvider = ({ children }) => {
         addToLikes,
         removeFromLikes,
         deleteAllLikes,
+        getLikedVideos
       }}
     >
       {children}

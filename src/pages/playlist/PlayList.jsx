@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { BiEdit, BiPlus } from "react-icons/bi";
 import { MdClose, MdDelete } from "react-icons/md";
 import PlaylistInputForm from "../../components/shared/PlaylistInputForm";
@@ -13,6 +13,7 @@ const Playlist = () => {
     createPlaylist,
     editPlaylist,
     deletePlaylist,
+    getPlaylist
   } = usePlaylist();
 
   const createPlaylistHandler = (name) => {
@@ -27,6 +28,11 @@ const Playlist = () => {
 
 
   const deleteClickHandler = (playlistId) => deletePlaylist({ playlistId });
+
+  useEffect(() => {
+    getPlaylist();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="container">

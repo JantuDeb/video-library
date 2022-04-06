@@ -25,15 +25,16 @@ const VideoProvider = ({ children }) => {
     currentVideo: {},
     loading: false,
     error: "",
+    currentCategory: "",
+    searchQuery: "",
   });
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
   const { currentVideo, videos } = videoState;
   /**
    * GET VIDEOS, CATEGORY FORM API
    */
   const getVideos = async () => {
-    videoDispatch({type:LOADING, payload:{loading:true}})
+    videoDispatch({ type: LOADING, payload: { loading: true } });
     try {
       const [videoResponse, categoryResponse] = await Promise.all([
         axiosInstance.get("/videos"),
@@ -47,14 +48,14 @@ const VideoProvider = ({ children }) => {
       });
       setCategories(categoryResponse.data.categories);
     } catch (error) {
-      videoDispatch({type:ERROR, payload:{error:error.message}})
-    }finally{
-      videoDispatch({type:LOADING, payload:{loading:false}})
+      videoDispatch({ type: ERROR, payload: { error: error.message } });
+    } finally {
+      videoDispatch({ type: LOADING, payload: { loading: false } });
     }
   };
 
   const getVideo = async (videoId) => {
-    videoDispatch({type:LOADING, payload:{loading:true}})
+    videoDispatch({ type: LOADING, payload: { loading: true } });
     try {
       const { data } = await axiosInstance.get("/video/" + videoId);
       if (data.success)
@@ -65,9 +66,9 @@ const VideoProvider = ({ children }) => {
           },
         });
     } catch (error) {
-      videoDispatch({type:ERROR, payload:{error:error.message}})
-    }finally{
-      videoDispatch({type:LOADING, payload:{loading:false}})
+      videoDispatch({ type: ERROR, payload: { error: error.message } });
+    } finally {
+      videoDispatch({ type: LOADING, payload: { loading: false } });
     }
   };
 
@@ -119,18 +120,23 @@ const VideoProvider = ({ children }) => {
     getVideos();
   }, []);
 
-  const setSelectedCategoryFilter = (id) => setSelectedCategory(id);
-  const fileterVideosByCategory = selectedCategory
-    ? videos.filter((video) => video.category === selectedCategory)
-    : videos;
+  const filterVideosByCategory = videos.filter((video) =>
+    videoState.currentCategory === ""
+      ? true
+      : video.category === videoState.currentCategory
+  );
+
+  const filterVideosBySearch = filterVideosByCategory.filter((video) =>
+    videoState.searchQuery==="" ||videoState.searchQuery===null
+      ? true
+      : video.title.toLowerCase().includes(videoState.searchQuery.toLowerCase())
+  );
 
   return (
     <VideoContext.Provider
       value={{
-        videos: fileterVideosByCategory,
+        videos: filterVideosBySearch,
         categories,
-        setSelectedCategoryFilter,
-        selectedCategory,
         video: currentVideo,
         getVideo,
         updateViewCount,
@@ -138,7 +144,7 @@ const VideoProvider = ({ children }) => {
         addNote,
         deleteNote,
         getNote,
-        videoState
+        videoState,
       }}
     >
       {children}

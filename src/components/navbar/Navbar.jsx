@@ -6,12 +6,32 @@ import { IoNotificationsSharp } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi";
 import "./Navbar.css";
 import { useSideBar } from "../../context/sidebar/SidebarContext";
-import { Link } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
 const Navbar = ({ hideHamburgerMenu }) => {
   const { authState } = useAuth();
   const { toogle } = useSideBar();
   const handleClick = () => toogle((v) => !v);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [, setSearchParams] = useSearchParams();
+
+  const serachInputHandler = (e) => {
+    e.preventDefault();
+    setSearchParams({ query: e.target.value });
+  };
+
+  const searButtonClikHandler = () => {
+    if(pathname!=="/"){
+      navigate("/")
+    }
+  };
+
   return (
     <header className="flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -26,8 +46,13 @@ const Navbar = ({ hideHamburgerMenu }) => {
         </Link>
       </div>
       <div className="input-icon search-box flex">
-        <input type="text" placeholder="Search" id="search" />
-        <button className="flex items-center">
+        <input
+          type="text"
+          placeholder="Search"
+          id="search"
+          onChange={serachInputHandler}
+        />
+        <button className="flex items-center" onClick={searButtonClikHandler}>
           <FiSearch size={20} />
         </button>
       </div>
@@ -45,7 +70,11 @@ const Navbar = ({ hideHamburgerMenu }) => {
           {authState.isLogedIn ? (
             <Link to="/profile">
               {authState.user.photo ? (
-                <img src={authState.user.photo?.secure_url} alt=""  className="avatar-small radius-full"/>
+                <img
+                  src={authState.user.photo?.secure_url}
+                  alt=""
+                  className="avatar-small radius-full"
+                />
               ) : (
                 <MdPerson size={40} />
               )}

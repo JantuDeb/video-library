@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { axiosInstance } from "../../utils/axios-instance";
-import { useAuth } from "../auth/AuthContext";
 import {
   ADD_TO_PLAYLIST,
   CREATE_PLAYLIST,
@@ -21,7 +20,7 @@ const PlaylistProvidder = ({ children }) => {
     try {
       const { data } = await axiosInstance.get("/user/playlists");
       if (data.success)
-        playlistDispatch({ type: GET_PLAYLISTS, payload: data.playlists });
+        playlistDispatch({ type: GET_PLAYLISTS, payload: {playlists:data.playlists} });
     } catch (error) {
       console.log(error);
     }
@@ -113,10 +112,10 @@ const PlaylistProvidder = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getPlaylist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getPlaylist();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <PlaylistContext.Provider
       value={{
@@ -127,6 +126,7 @@ const PlaylistProvidder = ({ children }) => {
         addToPlaylist,
         removeFromPlaylist,
         deletePlaylist,
+        getPlaylist
       }}
     >
       {children}

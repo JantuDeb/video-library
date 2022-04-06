@@ -1,9 +1,14 @@
-import React from "react";
+import {useEffect} from "react";
 import VideoCard from "../../components/shared/video-card/VideoCard";
 import { useHistoryVideos } from "../../context/history/HistoryContext";
 
 const History = () => {
-  const { historyVideos, deleteHistories } = useHistoryVideos();
+  const { historyVideos, deleteHistories,getHistoryVideos } = useHistoryVideos();
+
+  useEffect(() => {
+    getHistoryVideos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="container">
       <div className="flex justify-between items-center p-2">

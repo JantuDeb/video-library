@@ -5,13 +5,13 @@ import { useLikedVideos } from "../../../context/liked-videos/LikedVideoContext"
 import { usePlaylist } from "../../../context/playlist/PlaylistContext";
 import { useWatchLaterVideos } from "../../../context/watch-later/WatchLaterVideoContext";
 import PlaylistModal from "../../playlist/PlaylistModal";
-import DropdownMenu from "./DropdownMenu"
+import DropdownMenu from "./DropdownMenu";
 import Modal from "../modal/Modal";
 
 const VideoCardActionMenu = ({ videoId, playlistId }) => {
   const { addToLikes, removeFromLikes, likedVideos } = useLikedVideos();
   const [showModal, setShowModal] = useState(false);
-  const { removeFromPlaylist } = usePlaylist();
+  const { removeFromPlaylist, getPlaylist, playlists } = usePlaylist();
   const { watchLaterVideos, addToWatchLater, removeFromWatchLater } =
     useWatchLaterVideos();
 
@@ -22,6 +22,7 @@ const VideoCardActionMenu = ({ videoId, playlistId }) => {
   );
 
   const addToPlayListClickHandler = () => {
+    if (playlists.length === 0) getPlaylist();
     if (!playlistId) setShowModal((v) => !v);
     else removeVideoHandler(videoId, playlistId);
   };

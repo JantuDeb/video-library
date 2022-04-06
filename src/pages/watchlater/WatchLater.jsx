@@ -1,9 +1,13 @@
-import React from "react";
+import {useEffect} from "react";
 import VideoCard from "../../components/shared/video-card/VideoCard";
 import { useWatchLaterVideos } from "../../context/watch-later/WatchLaterVideoContext";
 
 const WatchLater = () => {
-  const { watchLaterVideos } = useWatchLaterVideos();
+  const { watchLaterVideos,getWatchLaterVideos  } = useWatchLaterVideos();
+  useEffect(() => {
+    getWatchLaterVideos();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="container">
       <div className="videos p-2">

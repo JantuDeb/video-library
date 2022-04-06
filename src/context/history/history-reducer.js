@@ -7,7 +7,7 @@ export const historyReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_HISTORY_VIDEOS:
-      return [...state, ...payload];
+      return payload.historyVideos;
     case ADD_TO_HISTORY:
       return [...state, payload];
     case REMOVE_FROM_HISTORY:
