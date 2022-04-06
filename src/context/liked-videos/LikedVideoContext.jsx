@@ -70,10 +70,6 @@ const LikedVideoProvider = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   getLikedVideos();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   return (
     <LikedVideoContext.Provider

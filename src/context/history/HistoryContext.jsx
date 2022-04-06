@@ -94,11 +94,6 @@ const HistoryVideoProvider = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   getHistoryVideos();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   return (
     <HistoryVideoContext.Provider
       value={{
