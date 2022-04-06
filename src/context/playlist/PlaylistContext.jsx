@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer } from "react";
 import { toast } from "react-toastify";
 
@@ -132,10 +131,6 @@ const PlaylistProvidder = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   getPlaylist();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
   return (
     <PlaylistContext.Provider
       value={{
