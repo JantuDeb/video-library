@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/axios-instance";
 import {
   ADD_NOTE,
+  ADD_VIDEO,
   DELETE_NOTE,
   ERROR,
   GET_CURRENT_VIDEO,
@@ -125,6 +126,33 @@ const VideoProvider = ({ children }) => {
     }
   };
 
+  const uploadVideo = async (video) => {
+    videoDispatch({ type: LOADING, payload: { loading: true } });
+    const toastId = toast.loading("Uploading video...", {type:"info"})
+    const formData = new FormData();
+    Object.entries(video).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    try {
+      const { data } = await axiosInstance.post("/videos", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (data.success) {
+        videoDispatch({ type: ADD_VIDEO, payload: { video: data.video } });
+        toast.update(toastId, { render: "Video uploaded successfully", type: "success", isLoading: false, autoClose:500 });
+      }
+    } catch (error) {
+      if (error.response){
+        toast.update(toastId, { render: error.response?.data?.message, type: "error", isLoading: false, autoClose:500 });
+      }
+    } finally {
+      videoDispatch({ type: LOADING, payload: { loading: false } });
+    }
+  };
+
   useEffect(() => {
     getVideos();
   }, []);
@@ -136,7 +164,7 @@ const VideoProvider = ({ children }) => {
   );
 
   const filterVideosBySearch = filterVideosByCategory.filter((video) =>
-    videoState.searchQuery==="" ||videoState.searchQuery===null
+    videoState.searchQuery === "" || videoState.searchQuery === null
       ? true
       : video.title.toLowerCase().includes(videoState.searchQuery.toLowerCase())
   );
@@ -154,6 +182,7 @@ const VideoProvider = ({ children }) => {
         deleteNote,
         getNote,
         videoState,
+        uploadVideo,
       }}
     >
       {children}

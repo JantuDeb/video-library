@@ -5,6 +5,7 @@ export const GET_CURRENT_VIDEO = "GET_CURRENT_VIDEO";
 export const ADD_NOTE = "ADD_NOTE";
 export const DELETE_NOTE = "DELETE_NOTE";
 export const GET_NOTE = "GET_NOTE";
+export const ADD_VIDEO = "ADD_VIDEO";
 export const LOADING = "LOADING";
 export const ERROR = "ERROR";
 export const SET_SEARCH_QUERY = "SET_SEARCH_QUERY";
@@ -15,6 +16,8 @@ export const videoReducer = (state, action) => {
   switch (type) {
     case GET_VIDEOS:
       return { ...state, videos: payload.videos };
+    case ADD_VIDEO:
+      return { ...state, videos: [...state.videos, payload.video] };
     case GET_CURRENT_VIDEO:
       return {
         ...state,

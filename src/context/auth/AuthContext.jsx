@@ -78,7 +78,7 @@ const AuthProvider = ({ children }) => {
     if (file) formData.append("photo", file);
     try {
       const { data } = await axiosInstance.post(
-        "user/update_user_details",
+        "/user/update_user_details",
         formData,
         {
           headers: {
@@ -101,7 +101,7 @@ const AuthProvider = ({ children }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(user)
+ 
   return (
     <AuthContext.Provider
       value={{ authState, savePhoto, logIn, logOut, signUp, authDispatch }}

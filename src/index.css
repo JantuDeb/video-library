@@ -193,3 +193,7 @@ textarea:focus {
 .justify-end{
   justify-content: flex-end;
 }
+
+.items-end{
+  align-items: flex-end;
+}
