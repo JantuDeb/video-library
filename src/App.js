@@ -12,6 +12,7 @@ import VideoDetails from "./pages/video-details/VideoDetails";
 import WatchLater from "./pages/watchlater/WatchLater";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UploadVideo from "./pages/upload/UploadVideo";
 function App() {
   return (
     <>
@@ -78,6 +79,14 @@ function App() {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/upload-video"
+          element={
+            <PrivateRoute>
+              <UploadVideo />
             </PrivateRoute>
           }
         />

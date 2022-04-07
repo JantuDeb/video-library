@@ -52,6 +52,10 @@ header {
 .btn-search-mobile{
     display: none;
 }
+
+.upload-video.active{
+  color: red;
+}
 @media screen and (max-width: 768px) {
   .upload-video,
   .notification {

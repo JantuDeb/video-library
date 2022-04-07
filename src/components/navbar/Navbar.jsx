@@ -7,30 +7,22 @@ import { FiSearch } from "react-icons/fi";
 import "./Navbar.css";
 import {
   Link,
+  NavLink,
   useLocation,
-  useNavigate,
   useSearchParams,
 } from "react-router-dom";
 
 import { useAuth } from "../../context/auth/AuthContext";
 
-const Navbar = ({ hideHamburgerMenu , toogle}) => {
+const Navbar = ({ hideHamburgerMenu, toogle }) => {
   const { authState } = useAuth();
-
-  const handleClick = () => toogle((v) => !v);
-  const navigate = useNavigate();
   const { pathname } = useLocation();
+  const handleClick = () => toogle((v) => !v);
   const [, setSearchParams] = useSearchParams();
 
-  const serachInputHandler = (e) => {
+  const searchInputHandler = (e) => {
     e.preventDefault();
     setSearchParams({ query: e.target.value });
-  };
-
-  const searButtonClikHandler = () => {
-    if(pathname!=="/"){
-      navigate("/")
-    }
   };
 
   return (
@@ -46,24 +38,26 @@ const Navbar = ({ hideHamburgerMenu , toogle}) => {
           <MdAirplay size={25} color="red" />
         </Link>
       </div>
-      <div className="input-icon search-box flex">
-        <input
-          type="text"
-          placeholder="Search"
-          id="search"
-          onChange={serachInputHandler}
-        />
-        <button className="flex items-center" onClick={searButtonClikHandler}>
-          <FiSearch size={20} />
-        </button>
-      </div>
+      {pathname === "/" && (
+        <div className="input-icon search-box flex">
+          <input
+            type="text"
+            placeholder="Search"
+            id="search"
+            onChange={searchInputHandler}
+          />
+          <button className="flex items-center">
+            <FiSearch size={20} />
+          </button>
+        </div>
+      )}
       <div className="flex items-center gap-2">
         <button className="flex items-center btn-search-mobile">
           <FiSearch size={20} />
         </button>
-        <div className="upload-video">
+        <NavLink to="/upload-video" className="upload-video">
           <RiVideoAddLine size={20} />
-        </div>
+        </NavLink>
         <div className="notification">
           <IoNotificationsSharp size={20} />
         </div>
