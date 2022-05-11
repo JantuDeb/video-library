@@ -13,6 +13,7 @@ import WatchLater from "./pages/watchlater/WatchLater";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UploadVideo from "./pages/upload/UploadVideo";
+import PageNotFound from "./pages/PageNotFound";
 function App() {
   return (
     <>
@@ -91,6 +92,7 @@ function App() {
           }
         />
         <Route path="/video" element={<VideoDetails />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

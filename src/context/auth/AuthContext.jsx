@@ -24,6 +24,7 @@ const AuthProvider = ({ children }) => {
       if (data.success) {
         authDispatch({ type: SIGNUP, payload: { user: data.user } });
         localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
         navigate("/", { replace: true });
       }
     } catch (error) {
@@ -40,6 +41,7 @@ const AuthProvider = ({ children }) => {
       if (data.success) {
         authDispatch({ type: LOGIN, payload: { user: data.user } });
         localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
         navigate(-1);
       }
     } catch (error) {
