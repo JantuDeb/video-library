@@ -58,6 +58,7 @@ const AuthProvider = ({ children }) => {
       if (data.success) {
         authDispatch({ type: LOGOUT });
         localStorage.removeItem("user");
+         localStorage.removeItem("token");
         navigate("/", { replace: true });
       }
     } catch (error) {
