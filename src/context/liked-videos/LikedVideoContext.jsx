@@ -23,7 +23,7 @@ const LikedVideoProvider = ({ children }) => {
       }
     } catch (error) {
       if (error.response)
-        toast.error(error.response?.data?.message, { autoClose: 2000 });
+       // toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
 
