@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/auth/AuthContext";
 import { useVideos } from "../context/videos/VideoContext";
 
 const VideoNote = ({ note, videoId }) => {
   const [text, setText] = useState(note);
   const [editing, setEditing] = useState(false);
   const { addNote, deleteNote } = useVideos();
+  const { authState } = useAuth();
   const editClickHandler = () => {
-    if (editing) addNote({ note: text, videoId });
-    else if (note && !editing) {
+    if (!authState.isLogedIn) return toast.error("Logged in user are allowed to add note")
+    if (editing) {
+      addNote({ note: text, videoId });
+    } else if (note && !editing) {
       setText(note);
     }
     setEditing((v) => !v);
@@ -22,7 +27,7 @@ const VideoNote = ({ note, videoId }) => {
         <div className="flex items-center gap-1">
           {note && (
             <button
-              onClick={()=>deleteNote(videoId)}
+              onClick={() => deleteNote(videoId)}
               className="transparent p-0 flex items-center"
             >
               <MdDelete size={20} color="red" />
