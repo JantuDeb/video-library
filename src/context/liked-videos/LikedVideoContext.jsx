@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 
 import { axiosInstance } from "../../utils/axios-instance";
 import {
@@ -70,7 +70,10 @@ const LikedVideoProvider = ({ children }) => {
     }
   };
 
-
+  useEffect(() => {
+    getLikedVideos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <LikedVideoContext.Provider
       value={{

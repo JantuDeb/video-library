@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/axios-instance";
 import {
@@ -79,7 +79,10 @@ const WatchLaterVideoProvider = ({ children }) => {
     }
   };
 
-
+  useEffect(() => {
+    getWatchLaterVideos();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <WatchLaterVideoContext.Provider

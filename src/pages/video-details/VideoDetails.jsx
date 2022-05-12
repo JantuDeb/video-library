@@ -14,14 +14,22 @@ import VideoNote from "../../components/VideoNote";
 import { useVideos } from "../../context/videos/VideoContext";
 import { UPDATE_LIKE_COUNT } from "../../context/videos/video-reducer";
 import Loader from "../../components/loader/Loader";
+import { useAuth } from "../../context/auth/AuthContext";
+import { toast } from "react-toastify";
 const VideoDetails = () => {
   const [searchparams] = useSearchParams();
   const { addToHistory } = useHistoryVideos();
   const { addToLikes, likedVideos, removeFromLikes } = useLikedVideos();
-  const { video, videoDispatch, getVideo, updateViewCount, getNote, videoState:{loading} } =
-    useVideos();
+  const {
+    video,
+    videoDispatch,
+    getVideo,
+    updateViewCount,
+    getNote,
+    videoState: { loading },
+  } = useVideos();
   const videoId = searchparams.get("videoId");
-
+  const { authState } = useAuth();
   const {
     title,
     channelTitle,
@@ -34,6 +42,8 @@ const VideoDetails = () => {
   const isLiked = likedVideos.some((video) => video._id === videoId);
 
   const likeDislikeClickHandler = () => {
+    if (!authState.isLogedIn)
+      return toast.error("Login is required to like a video");
     if (isLiked) {
       videoDispatch({
         type: UPDATE_LIKE_COUNT,
@@ -58,14 +68,14 @@ const VideoDetails = () => {
   useEffect(() => {
     if (videoId) {
       getVideo(videoId);
-      addToHistory(videoId);
+      authState.isLogedIn && addToHistory(videoId);
     }
     if (video) {
       updateViewCount(videoId);
       getNote(videoId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videoId]);
+  }, [videoId,authState]);
 
   return (
     <>
@@ -73,7 +83,7 @@ const VideoDetails = () => {
       <div className="flex video-details">
         {video && (
           <div className="video-wrapper">
-            {loading ?<Loader/>: <VideoPlayer url={videoURL?.url} />}
+            {loading ? <Loader /> : <VideoPlayer url={videoURL?.url} />}
             <ul className="list-unstyled flex text-blue gap-1 m-0 wrap">
               {video.tags?.map((tag) => (
                 <li className="tag">#{tag}</li>
@@ -107,7 +117,7 @@ const VideoDetails = () => {
               <ChannelMeta channelTitle={channelTitle} />
               <p className="description p-1 m-0">{description}</p>
             </div>
-           <VideoNote note={note} videoId={videoId} />
+            <VideoNote note={note} videoId={videoId} />
           </div>
         )}
         <RecommendedVideos currentVideoId={videoId} />
