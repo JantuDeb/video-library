@@ -25,11 +25,11 @@ const WatchLaterVideoProvider = ({ children }) => {
         const watchLaterVideos = data.watchLaters.map((watch) => watch.video);
         watchLaterDispatch({
           type: GET_WATCH_LATER_VIDEOS,
-          payload:{ watchLaterVideos},
+          payload: { watchLaterVideos },
         });
       }
     } catch (error) {
-      if (error.response)
+      // if (error.response)
       //toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
@@ -43,7 +43,7 @@ const WatchLaterVideoProvider = ({ children }) => {
         videoId,
       });
 
-      if (data.success){
+      if (data.success) {
         watchLaterDispatch({
           type: ADD_TO_WATCH_LATER,
           payload: {
@@ -66,7 +66,7 @@ const WatchLaterVideoProvider = ({ children }) => {
       const { data } = await axiosInstance.delete(
         `/user/watch-later/${videoId}`
       );
-      if (data.success){
+      if (data.success) {
         watchLaterDispatch({
           type: REMOVE_FROM_WATCH_LATER,
           payload: { _id: data.watchLater.video },
@@ -81,7 +81,7 @@ const WatchLaterVideoProvider = ({ children }) => {
 
   useEffect(() => {
     getWatchLaterVideos();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -90,7 +90,7 @@ const WatchLaterVideoProvider = ({ children }) => {
         watchLaterVideos,
         addToWatchLater,
         removeFromWatchLater,
-        getWatchLaterVideos
+        getWatchLaterVideos,
       }}
     >
       {children}

@@ -22,7 +22,7 @@ const LikedVideoProvider = ({ children }) => {
         likeDispatch({ type: GET_LIKED_VIDEOS, payload: {likedVideos} });
       }
     } catch (error) {
-      if (error.response)
+      // if (error.response)
        // toast.error(error.response?.data?.message, { autoClose: 2000 });
     }
   };
