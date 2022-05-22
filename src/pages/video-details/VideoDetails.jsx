@@ -3,7 +3,7 @@ import Navbar from "../../components/navbar/Navbar";
 import VideoPlayer from "../../components/player/VideoPlayer";
 import "./VideoDetails.css";
 import { BiLike } from "react-icons/bi";
-import { RiPlayListAddFill, RiShareForwardLine } from "react-icons/ri";
+import { RiPlayListAddFill } from "react-icons/ri";
 import { useSearchParams } from "react-router-dom";
 import { formatedDate } from "../../utils/utils";
 import { useHistoryVideos } from "../../context/history/HistoryContext";
@@ -16,6 +16,7 @@ import { UPDATE_LIKE_COUNT } from "../../context/videos/video-reducer";
 import Loader from "../../components/loader/Loader";
 import { useAuth } from "../../context/auth/AuthContext";
 import { toast } from "react-toastify";
+import { useWatchLaterVideos } from "../../context/watch-later/WatchLaterVideoContext";
 const VideoDetails = () => {
   const [searchparams] = useSearchParams();
   const { addToHistory } = useHistoryVideos();
@@ -28,6 +29,9 @@ const VideoDetails = () => {
     getNote,
     videoState: { loading },
   } = useVideos();
+
+  const { watchLaterVideos, addToWatchLater, removeFromWatchLater } =
+    useWatchLaterVideos();
   const videoId = searchparams.get("videoId");
   const { authState } = useAuth();
   const {
@@ -41,6 +45,14 @@ const VideoDetails = () => {
   } = video;
   const isLiked = likedVideos.some((video) => video._id === videoId);
 
+  const isInWatchLater = watchLaterVideos.some(
+    (video) => video._id === videoId
+  );
+
+  const watchLaterClickHandler = () => {
+    if (!authState.isLogedIn) return toast.error("You need to login first");
+    isInWatchLater ? removeFromWatchLater(videoId) : addToWatchLater(videoId);
+  };
   const likeDislikeClickHandler = () => {
     if (!authState.isLogedIn)
       return toast.error("Login is required to like a video");
@@ -75,7 +87,7 @@ const VideoDetails = () => {
       getNote(videoId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videoId,authState]);
+  }, [videoId, authState]);
 
   return (
     <>
@@ -105,12 +117,15 @@ const VideoDetails = () => {
                     />
                     {statistics?.likeCount}
                   </span>
-                  <span className="flex items-center gap-1 pointer">
+                  {/* <span className="flex items-center gap-1 pointer">
                     <RiShareForwardLine size={20} /> SHARE
-                  </span>
-                  <span className="flex items-center gap-1 pointer">
-                    <RiPlayListAddFill size={20} />
-                    SAVE
+                  </span> */}
+                  <span className="flex items-center gap-1 pointer" onClick={watchLaterClickHandler}>
+                    <RiPlayListAddFill
+                      size={20}
+                      color={isInWatchLater ? "red" : "white"}
+                    />
+                    {isInWatchLater ? "REMOVE" : "SAVE"}
                   </span>
                 </div>
               </div>
