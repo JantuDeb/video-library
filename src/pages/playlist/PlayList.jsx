@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BiEdit, BiPlus } from "react-icons/bi";
 import { MdClose, MdDelete } from "react-icons/md";
 import PlaylistInputForm from "../../components/shared/PlaylistInputForm";
@@ -13,7 +13,7 @@ const Playlist = () => {
     createPlaylist,
     editPlaylist,
     deletePlaylist,
-    getPlaylist
+    getPlaylist,
   } = usePlaylist();
 
   const createPlaylistHandler = (name) => {
@@ -25,7 +25,6 @@ const Playlist = () => {
     editPlaylist({ name, playlistId: isEditing.id });
     setIsEditing({ status: false, id: "" });
   };
-
 
   const deleteClickHandler = (playlistId) => deletePlaylist({ playlistId });
 
@@ -62,6 +61,9 @@ const Playlist = () => {
       </div>
 
       <div className="flex-col p-2">
+        {playlists.length === 0 && (
+          <h4 className="text-center p-2">No Playlist! Create a playlist.</h4>
+        )}
         {playlists.map((playlist) => {
           return (
             <section key={playlist._id} className="border-bottom py-1">
@@ -89,11 +91,12 @@ const Playlist = () => {
                   <MdDelete
                     size={20}
                     className="pointer text-red"
-                    onClick={()=>deleteClickHandler(playlist._id)}
+                    onClick={() => deleteClickHandler(playlist._id)}
                   />
                 </div>
               )}
               <div className="flex gap-2 playlist h-scroll">
+                
                 {playlist.videos.map((video) => (
                   <VideoCard
                     video={video}

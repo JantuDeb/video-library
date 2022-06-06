@@ -13,6 +13,7 @@ const VideoNote = ({ note, videoId }) => {
   const editClickHandler = () => {
     if (!authState.isLogedIn) return toast.error("Logged in user are allowed to add note")
     if (editing) {
+      if(!text) return toast.error("Note cannot be empty")
       addNote({ note: text, videoId });
     } else if (note && !editing) {
       setText(note);
